@@ -1,0 +1,1548 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#153e35"><title>Pickadeli · Cierre por excepciones</title><style>
+:root{--ink:#183e34;--muted:#62736a;--green:#245e47;--bg:#f4f6f0;--line:#dce4d8;--lime:#e0edb5;--orange:#8b5319;--red:#9a4037;--blue:#365d82}*{box-sizing:border-box}body{margin:0;font:15px/1.5 'Segoe UI',Arial,sans-serif;color:var(--ink);background:var(--bg)}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:8px;background:var(--green);color:white;padding:11px 16px;font-weight:600;min-height:43px}button:hover{filter:brightness(.95)}button:disabled{cursor:not-allowed;opacity:.45}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid #af752a;outline-offset:3px}input,select,textarea{padding:10px 12px;border:1px solid #aebfaf;border-radius:7px;background:white;color:var(--ink);max-width:100%}textarea{width:100%;min-height:85px;resize:vertical}label{display:block;font-size:13px;font-weight:600;margin:12px 0 6px}h1{font-size:34px;line-height:1.2;letter-spacing:-1px;margin:5px 0 10px}h2{font-size:22px;line-height:1.3;margin:0 0 12px}h3{font-size:17px;margin:20px 0 9px}p{margin:0 0 13px}.muted,.tiny{color:var(--muted)}.tiny{font-size:12px}.eyebrow{font-size:11px;font-weight:700;letter-spacing:1.6px;color:var(--muted);margin-bottom:8px}.top{height:88px;padding:16px 32px;background:#153e35;color:white;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{color:white;text-decoration:none;font-size:30px;font-weight:700;letter-spacing:-1px}.brand span{display:block;font-size:9px;letter-spacing:2px;color:var(--lime)}.demo{font-size:11px;letter-spacing:1px;color:var(--lime)}.quiet{background:#ffffff12;border:1px solid #ffffff44}.shell{display:grid;grid-template-columns:238px minmax(0,1fr);min-height:calc(100vh - 88px)}aside{padding:27px 18px;background:#fcfdf9;border-right:1px solid var(--line)}.nav-title{font-size:10px;color:var(--muted);letter-spacing:1.3px;padding-left:10px}nav{display:grid;gap:5px}nav button{text-align:left;background:none;color:var(--muted);font-size:13px;font-weight:500}nav button.active{background:var(--lime);color:var(--ink);font-weight:700}.side-note{font-size:12px;color:var(--muted);padding:20px 10px;margin-top:28px;border-top:1px solid var(--line)}.side-note b{color:var(--ink)}.side-note p{margin-top:8px}.scenarios{margin:16px 0 25px;padding:12px;border:1px solid var(--line);border-radius:8px;font-size:12px}.scenarios summary{cursor:pointer;font-weight:600}.scenarios select,.scenarios button{width:100%;font-size:12px;margin-bottom:10px}.scenarios p{color:var(--muted);font-size:11px}main{padding:25px 32px;min-width:0}.context{display:flex;flex-wrap:wrap;gap:10px 22px;color:var(--muted);font-size:11px;border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:26px}.heading{display:flex;justify-content:space-between;gap:25px;align-items:flex-start;margin-bottom:22px}.heading p{color:var(--muted);max-width:750px}.actions{display:flex;gap:10px;flex-wrap:wrap}.secondary{background:white;color:var(--ink);border:1px solid #c6d1c0}.text-btn{background:none;color:var(--green);text-decoration:underline;padding:7px 0;font-size:12px}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin:22px 0}.stat{background:white;border:1px solid var(--line);border-radius:11px;padding:19px 22px}.stat b{font-size:38px;font-weight:650;display:block;line-height:1.2}.stat span{font-size:12px;color:var(--muted)}.stat:first-child{background:var(--ink);color:white}.stat:first-child span{color:#d2e1cb}.notice{padding:17px 19px;border:1px solid #d9e2c8;background:#edf2e3;border-radius:9px;font-size:13px;line-height:1.6;margin:18px 0}.notice.warning{background:#fff3df;border-color:#ead8b8;color:#79501f}.notice.danger{background:#fbede8;border-color:#ebcbc1;color:var(--red)}.filters{display:flex;gap:8px;flex-wrap:wrap;margin:25px 0 15px}.filters button{background:white;color:var(--muted);border:1px solid var(--line);font-size:12px;padding:8px 13px}.filters button.active{background:var(--ink);color:white}.panel{background:white;border:1px solid var(--line);border-radius:12px;padding:23px;margin:18px 0}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:10px;background:white}table{width:100%;border-collapse:collapse;font-size:13px}th{text-align:left;background:#eff3e9;color:#647559;font-weight:600;font-size:11px;padding:13px 15px;white-space:nowrap}td{padding:16px 15px;border-top:1px solid #e7ece3;vertical-align:top}td small{display:block;color:var(--muted);font-size:11px;margin-top:4px}.product-name{min-width:215px;font-size:13px;font-weight:650;max-width:310px}.num{white-space:nowrap;font-weight:650;font-variant-numeric:tabular-nums}.badge{display:inline-block;border-radius:5px;padding:4px 7px;background:#eef1e9;font-size:11px;font-weight:650;white-space:nowrap}.badge.pending{background:#fff0d6;color:var(--orange)}.badge.matched,.badge.decided{background:#e5f2de;color:#3c663c}.badge.ready{background:#e5effa;color:var(--blue)}td .row-action{min-height:35px;padding:7px 12px;font-size:12px;white-space:nowrap}.end-row{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:20px 0}.end-row p{margin:0;color:var(--muted);font-size:13px}.empty{padding:45px;text-align:center;color:var(--muted);background:white;border:1px dashed var(--line);border-radius:12px}.source-grid,.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}.source-grid .panel,.two-col .panel{margin:0}.source-grid{margin:20px 0}.file{font-size:12px;color:var(--muted);overflow-wrap:anywhere}.operator-count{width:108px}.operator-unit{font-size:12px;max-width:160px}.count-form td:first-child{max-width:270px}.event{border-left:2px solid #a4bc8b;padding:0 0 22px 18px;margin-left:8px}.event h3{font-size:14px;margin:0 0 5px}.event p{font-size:12px;color:var(--muted);margin:0;white-space:pre-wrap}.event small{font-size:11px;color:var(--muted)}details summary{cursor:pointer}dialog{border:1px solid #c8d6c3;border-radius:14px;width:min(850px,calc(100% - 24px));max-height:90vh;padding:28px;color:var(--ink);box-shadow:0 20px 80px #0003}dialog::backdrop{background:#102e3f88}.dialog-top{display:flex;justify-content:space-between;align-items:start;gap:25px;margin-bottom:22px}.dialog-top h2{overflow-wrap:anywhere}.icon{border-radius:50%;background:#edf2e7;color:var(--ink);min-width:40px;padding:4px;font-size:25px;height:40px}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin:20px 0}.metrics div{padding:15px;background:#f3f6ee;border-radius:8px}.metrics b{display:block;font-size:28px}.metrics span{font-size:11px;color:var(--muted)}.evidence-links{display:flex;flex-wrap:wrap;gap:8px}.evidence-links button{font-size:12px;background:#eff4e8;color:var(--green)}.facilitator{margin-top:24px;border-top:1px solid var(--line);padding-top:18px;font-size:13px}.facilitator button{margin:10px 5px 0 0;font-size:12px}.facilitator p{color:var(--muted);margin-top:10px}.rule{font-size:12px;color:var(--muted);margin-top:12px}.cell-table{table-layout:fixed}.cell-table th{width:110px;white-space:normal}.cell-table td{overflow-wrap:anywhere;white-space:pre-wrap}#toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);max-width:90%;background:var(--ink);color:white;padding:15px 25px;border-radius:8px;z-index:100;font-size:13px}#json-output{font:11px/1.5 Consolas,monospace;height:200px}.error{color:var(--red);font-size:13px;margin:15px 0}.success{color:var(--green)}footer{font-size:11px;color:var(--muted);border-top:1px solid var(--line);padding-top:20px;margin-top:32px}.guide li{margin:16px 0;line-height:1.6}.skip:not(:focus){position:absolute;clip-path:inset(50%);width:1px;height:1px;overflow:hidden}.skip:focus{position:fixed;top:5px;left:5px;background:white;z-index:200;padding:12px}.export-table{font-size:11px}.report-head{padding-bottom:18px;border-bottom:1px solid var(--line)}.clock{font-size:34px;font-variant-numeric:tabular-nums}.fine{font-size:12px;color:var(--muted)}[hidden]{display:none!important}
+@media(max-width:1100px){.shell{grid-template-columns:205px minmax(0,1fr)}main{padding:22px}.stats{gap:8px}.stat{padding:15px}h1{font-size:29px}.heading{flex-direction:column;gap:8px}.source-grid,.two-col{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:760px){.top{height:auto;padding:15px 18px;flex-wrap:wrap;gap:9px}.brand{font-size:25px}.demo{font-size:9px}.top button{font-size:12px;padding:8px 10px}.shell{display:block}aside{border-right:0;padding:12px 15px}.nav-title,.side-note{display:none}nav{display:flex;overflow:auto;gap:4px}nav button{flex-shrink:0;font-size:12px}.scenarios{margin:12px 0 0;padding:10px}.scenarios select{margin-top:8px}#storage{margin:9px 0 0;font-size:10px}main{padding:20px 15px}.context{gap:7px 13px;margin-bottom:20px}h1{font-size:29px}.stats{grid-template-columns:1fr 1fr}.stat b{font-size:32px}.end-row{align-items:flex-start;flex-direction:column}.metrics{gap:7px}.metrics div{padding:10px}.metrics b{font-size:23px}dialog{padding:20px}.panel{padding:18px}.product-name{min-width:190px}.guide{padding-left:20px}footer{font-size:10px}}
+.panel{min-width:0}.panel h3{overflow-wrap:anywhere}.panel button{max-width:100%;white-space:normal}.status-cell{min-width:170px}.export-table{table-layout:fixed}.export-table td{overflow-wrap:anywhere}.export-table th{white-space:normal}.export-table th:nth-child(6){width:30%}
+@media(max-width:760px){
+.summary-table,.count-form,.summary-table tbody,.count-form tbody{display:block}
+.summary-table thead,.count-form thead{display:none}
+.summary-table tr,.count-form tr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);padding:15px;border-bottom:1px solid var(--line);gap:12px}
+.summary-table tr:last-child,.count-form tr:last-child{border-bottom:0}
+.summary-table td,.count-form td{display:block;border:0;padding:0;min-width:0;max-width:none;white-space:normal}
+.summary-table td::before,.count-form td::before{content:attr(data-label);display:block;color:var(--muted);font-size:10px;font-weight:500;margin-bottom:4px}
+.summary-table td.product-name,.count-form td.product-name{grid-column:1/-1;max-width:none}
+.summary-table .status-cell{grid-column:2;grid-row:3/5}
+.summary-table .detail-cell{grid-column:1}.summary-table .detail-cell button{width:100%;min-height:44px}
+.count-form .tiny{grid-column:1/-1}.count-form input,.count-form select{width:100%}
+.summary-table .badge{white-space:normal}.summary-table .product-name{font-size:14px}
+.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.metrics small{font-size:10px}.metrics span{overflow-wrap:anywhere}
+#report{width:calc(100% - 16px);padding:16px}#report .export-table{font-size:10px}#report .export-table th,#report .export-table td{padding:6px 3px;font-size:9px}
+}
+@media print{html,body{height:auto!important;overflow:visible!important;background:white;margin:0}dialog#report{margin:0!important;inset:auto!important;max-width:none!important;height:auto!important}#report-body{overflow:visible!important}.report-head{padding:0 0 10px}.report-head p{margin:0 0 7px}.report-head h2{margin:0 0 7px;font-size:20px}.export-table td{line-height:1.35}#report .notice{padding:8px 10px;font-size:10px;margin:10px 0}@page{size:A4 landscape;margin:12mm}body>*{display:none!important}body>dialog#report{display:block!important;position:static;width:100%;max-height:none;overflow:visible;border:0;padding:0;box-shadow:none}dialog::backdrop{display:none}.no-print{display:none!important}.export-table th,.export-table td{font-size:9px;padding:6px}.export-table tr{break-inside:avoid}.report-head{break-after:avoid}}
+
+</style></head><body>
+<a class="skip" href="#main">Saltar al contenido</a><header class="top"><a href="#resumen" class="brand">pickadeli<span>CIERRE POR EXCEPCIONES</span></a><span class="demo">DEMO LOCAL · DATOS HISTÓRICOS</span><button class="quiet" id="guide">Guion de demo</button></header>
+<div class="shell"><aside><p class="nav-title">ESPACIOS DE TRABAJO</p><nav aria-label="Principal"><button data-view="resumen">Resumen de Yamile</button><button data-view="operario">Conteo del operario</button><button data-view="fuentes">Fuentes y controles</button><button data-view="historial">Historial de cambios</button><button data-view="comparar">Prueba comparativa</button></nav><div class="side-note"><b>Una captura en origen.</b><p>Yamile revisa las variaciones. El operario conserva su pantalla de conteo.</p></div><details class="scenarios"><summary>Escenarios del facilitador</summary><label for="scenario">Preparar otro cierre de ensayo</label><select id="scenario"></select><button id="load-scenario" class="secondary">Cargar escenario</button><p>Cambia el ensayo y sus registros. No representa un cierre real.</p></details><p id="storage" class="tiny"></p></aside>
+<main id="main" tabindex="-1"><div class="context"><span>Almacén Principal CIP</span><span>Recepción DEMO-CIP-0107</span><span>01 jul 2026 · corte <b id="cutoff"></b></span><span id="version"></span></div><section id="view"></section><footer>Prototipo académico final · Sin envíos, conexiones ni cambios en inventario. Los roles son vistas de demostración, no controles de acceso.</footer></main></div>
+<dialog id="detail" aria-labelledby="detail-title"><div class="dialog-top"><div><p class="eyebrow">RECEPCIÓN Y SUSTENTO</p><h2 id="detail-title"></h2></div><button class="icon" data-close="detail" aria-label="Cerrar detalle">×</button></div><div id="detail-body"></div></dialog>
+<dialog id="evidence" aria-labelledby="evidence-title"><div class="dialog-top"><h2 id="evidence-title"></h2><button class="icon" data-close="evidence" aria-label="Cerrar evidencia">×</button></div><div id="evidence-body"></div></dialog>
+<dialog id="report" aria-labelledby="report-title"><div class="dialog-top no-print"><h2 id="report-title">Reporte de cierre</h2><button class="icon" data-close="report" aria-label="Cerrar reporte">×</button></div><div id="report-body"></div><div class="actions no-print"><button id="print-report">Imprimir / guardar como PDF</button><button id="download-json" class="secondary">Descargar respaldo JSON</button></div><details class="no-print"><summary>Ver contenido del respaldo para copiar</summary><textarea id="json-output" readonly aria-label="Respaldo JSON"></textarea></details></dialog>
+<dialog id="help" aria-labelledby="help-title"><div class="dialog-top"><h2 id="help-title">Demostración de 2 minutos</h2><button class="icon" data-close="help" aria-label="Cerrar guía">×</button></div><ol class="guide"><li><b>0–30 s · Yamile ve el cierre.</b> Ocho productos; seis coinciden y dos requieren atención. Las cantidades físicas ya llegaron del operario, simuladamente.</li><li><b>30–60 s · Corregir en origen.</b> En Conteo del operario, cambiar alfajores de 48 a 50 e indicar “Error de digitación en el ensayo”. Publicar. Volver al resumen: queda una excepción.</li><li><b>60–90 s · Recibir evidencia.</b> Abrir chocoproteico. La merma real de 1 no tiene lote. En Eventos del facilitador, simular el vínculo. Ahora hay sustento para 22.</li><li><b>90–120 s · Decidir y compartir.</b> Registrar la decisión cuantitativa del ensayo. Emitir el reporte: muestra conteos, evidencia y decisiones. No autoriza despacho ni modifica el Kardex.</li></ol><p class="notice">Los conteos y la recepción son simulados. Las cantidades de preparación, productos y celdas provienen de los archivos reales. La entrada por preparación se usa como referencia, no prueba de entrega física.</p><h3>Qué cambió por el feedback</h3><p>Resumen de excepciones para Yamile, captura separada, corrección con historial, causa pendiente permitida, reporte y controles de calidad de datos.</p><h3>Qué falta validar</h3><p>Uso con Yamile y operario, ahorro neto, fuente oficial por dato, reglas de aceptación, integración y responsabilidad operativa. La prueba comparativa permite registrar mediciones nuevas; aún no existen resultados de usuarios para esta versión.</p></dialog>
+<div id="toast" role="status" hidden></div><script>
+
+/* data.js */
+window.PICKADELI_DATA = {
+  "version": 2,
+  "files": {
+    "kardex": {
+      "name": "CG_Rest_ExportInvKardex_Jul.xlsx",
+      "kind": "Exportación de Restaurant.pe",
+      "period": "Movimientos con fecha 01 y 02/07/2026",
+      "role": "Preparaciones, lotes y movimientos. Se usa ENTRADA por preparación; STOCK no es la cantidad entregada.",
+      "scope": "36.413 filas con fecha y 364 filas sin fecha; 1.886 movimientos identificados del CIP."
+    },
+    "mermas": {
+      "name": "CG_Rest_ExportMermas_Jul.xlsx",
+      "kind": "Exportación de salidas",
+      "period": "Encabezado: 15 al 28/06/2026",
+      "role": "Cabeceras con importe y razón; no equivalen a cantidades por producto/lote. No justifican automáticamente un faltante de julio.",
+      "scope": "El nombre Jul no coincide con el periodo declarado dentro del archivo."
+    },
+    "formato": {
+      "name": "Formato de pedidos.xlsx",
+      "kind": "Excel de pedidos",
+      "period": "Pedido!B3: 13/07/2026",
+      "role": "Relaciona nombres de pedido e ítems. Sus reglas de variación de pedidos no son tolerancias de recepción.",
+      "scope": "Catálogo y equivalencias de nombres; no es una declaración real de entrega del 01/07."
+    },
+    "stock": {
+      "name": "Informe_inventario_2026-08-25_21.38.45 insumos.xlsx",
+      "kind": "Reporte de inventario",
+      "period": "Encabezado: 25/08/2026 23:59:59",
+      "role": "Stock de insumos del Almacén Principal CIP. No se mezcla con una preparación de julio.",
+      "scope": "Fotografía de inventario; no acredita una entrega ni su cantidad."
+    },
+    "recetas": {
+      "name": "Insumos_descartables_recetas_mermas.xlsx",
+      "kind": "Excel de requerimientos",
+      "period": "Varias hojas indican semana 09/03 al 13/03",
+      "role": "Nombres de recetas, requerimientos y parámetros de merma. El porcentaje estándar de un insumo no prueba una incidencia del producto terminado.",
+      "scope": "Se consulta como contexto; no se suma demanda histórica a la producción de julio."
+    },
+    "ordenes": {
+      "name": "ORDENES DE PEDIDOS DE LAS TIENDAS 28.02.26.xlsx",
+      "kind": "Excel de pedidos y factores",
+      "period": "PEDIDOS: 02/12/2025 a 28/02/2026",
+      "role": "BASE permite examinar factores y unidades. PEDIDOS es demanda/despacho histórico, no recepción Cocina → Picking en julio.",
+      "scope": "Los factores reutilizados en el ensayo requieren validar vigencia y equivalencia en un piloto."
+    },
+    "recepcion": {
+      "name": "Recepción de materias primas e insumos.xlsx",
+      "kind": "Registro de recepción de insumos",
+      "period": "73 registros con producto; fechas del 01 al 30/07/2026",
+      "role": "Recepción de materias primas, algunos lotes y cantidades. No prueba por sí sola qué lote se consumió en una preparación.",
+      "scope": "La recepción de quinua del 02/07 no puede justificar una producción del 01/07."
+    },
+    "proceso": {
+      "name": "5. Procesos Produccion y almacen -Pickadeli (3).pdf",
+      "kind": "Documento de proceso AS-IS",
+      "period": "Levantamiento: 19/06/2026",
+      "role": "Págs. 6–7: producción y registro posterior. Págs. 10–11: conteo, Kardex y conciliación. Págs. 14–15: gestión de incidencias.",
+      "scope": "Describe el proceso; no contiene cantidades transaccionales para aceptar una recepción."
+    },
+    "solicitud": {
+      "name": "5. Proyecto Integrador - Solicitud data inicial (2).pdf",
+      "kind": "Respuestas del CEO",
+      "period": "Proyecto Integrador 2026-2",
+      "role": "Pág. 2: Excel y Restaurant.pe, registro de cantidades a producir, rendimientos y mermas; diferencias de unidad y doble digitación.",
+      "scope": "Pág. 1 menciona márgenes aceptables, pero no fija umbrales numéricos. No se inventan tolerancias."
+    }
+  },
+  "products": [
+    {
+      "id": "2980",
+      "name": "ALFAJORES GRANDES (RF)",
+      "baseUnit": "UNIDAD",
+      "units": [
+        {
+          "label": "unidades",
+          "factor": 1,
+          "integer": true
+        }
+      ],
+      "refs": [],
+      "context": [
+        "F14",
+        "K3714",
+        "K11474"
+      ],
+      "preps": [
+        {
+          "id": "264485",
+          "lot": "13639",
+          "date": "2026-07-01",
+          "time": "10:42:18",
+          "quantity": 50,
+          "evidence": "K3573"
+        }
+      ],
+      "aliases": [
+        "ALFAJOR X 5 UND"
+      ]
+    },
+    {
+      "id": "2927",
+      "name": "ARROZ INTEGRAL COCIDO PQ X 0.1 KG",
+      "baseUnit": "UNIDAD",
+      "units": [
+        {
+          "label": "unidades",
+          "factor": 1,
+          "integer": true
+        }
+      ],
+      "refs": [],
+      "context": [
+        "F8"
+      ],
+      "preps": [
+        {
+          "id": "264523",
+          "lot": "13646",
+          "date": "2026-07-01",
+          "time": "11:45:04",
+          "quantity": 344,
+          "evidence": "K3152"
+        }
+      ],
+      "aliases": [
+        "ARROZ INTEGRAL PQ X 100 GR"
+      ]
+    },
+    {
+      "id": "3252",
+      "name": "CHOCOPROTEICO (RF)",
+      "baseUnit": "UNIDAD",
+      "units": [
+        {
+          "label": "unidades",
+          "factor": 1,
+          "integer": true
+        }
+      ],
+      "refs": [],
+      "context": [
+        "F45",
+        "K10145",
+        "K11680",
+        "K11683"
+      ],
+      "preps": [
+        {
+          "id": "264486",
+          "lot": "13640",
+          "date": "2026-07-01",
+          "time": "17:48:36",
+          "quantity": 23,
+          "evidence": "K11701"
+        }
+      ],
+      "aliases": [
+        "CHOCOPROTEICO"
+      ],
+      "incident": {
+        "quantity": 1,
+        "evidence": "K11700",
+        "time": "17:49:36",
+        "lot": null,
+        "id": "30004"
+      }
+    },
+    {
+      "id": "313",
+      "name": "QUINUA PERLADA COCIDA - PQ X 0.6 KG",
+      "baseUnit": "KILOS",
+      "units": [
+        {
+          "label": "bolsas de 0,6 kg",
+          "factor": 0.6,
+          "integer": true,
+          "evidence": "B34"
+        },
+        {
+          "label": "kg",
+          "factor": 1,
+          "integer": false
+        }
+      ],
+      "refs": [],
+      "context": [
+        "B34",
+        "R24",
+        "K6408",
+        "K6572"
+      ],
+      "preps": [
+        {
+          "id": "264521",
+          "lot": "13646",
+          "date": "2026-07-01",
+          "time": "11:45:02",
+          "quantity": 19.8,
+          "evidence": "K16259"
+        }
+      ],
+      "aliases": [
+        "QUINUA PERLADA COCIDA - PQ X 0.600 KG"
+      ]
+    },
+    {
+      "id": "3123",
+      "name": "SALSA DE PAVO PQ 0.500 GR",
+      "baseUnit": "LITRO",
+      "units": [
+        {
+          "label": "bolsas (factor en conflicto)",
+          "factor": null,
+          "integer": true
+        },
+        {
+          "label": "litros",
+          "factor": 1,
+          "integer": false
+        }
+      ],
+      "refs": [],
+      "context": [
+        "F42",
+        "B9"
+      ],
+      "preps": [
+        {
+          "id": "264503",
+          "lot": "13643",
+          "date": "2026-07-01",
+          "time": "11:30:09",
+          "quantity": 3,
+          "evidence": "K1061"
+        }
+      ],
+      "aliases": [
+        "SALSA DE PAVO PQ 500 GR"
+      ],
+      "conflict": true,
+      "conflictEvidence": "B9"
+    },
+    {
+      "id": "1024",
+      "name": "TOCINO CROCANTE PQ X 100 GR",
+      "baseUnit": "KILOS",
+      "units": [
+        {
+          "label": "kg",
+          "factor": 1,
+          "integer": false
+        }
+      ],
+      "refs": [],
+      "context": [
+        "F20",
+        "B363"
+      ],
+      "preps": [
+        {
+          "id": "264510",
+          "lot": "13644",
+          "date": "2026-07-01",
+          "time": "11:35:00",
+          "quantity": 3.4,
+          "evidence": "K14754"
+        },
+        {
+          "id": "264541",
+          "lot": "13648",
+          "date": "2026-07-01",
+          "time": "11:55:00",
+          "quantity": 1.5,
+          "evidence": "K14753"
+        }
+      ],
+      "aliases": [
+        "TOCINO CROCANTE X 100GR"
+      ]
+    },
+    {
+      "id": "3017",
+      "name": "BANANA CAKE MOLDE X 5 UND",
+      "baseUnit": "UNIDAD",
+      "units": [
+        {
+          "label": "unidades",
+          "factor": 1,
+          "integer": true
+        }
+      ],
+      "refs": [],
+      "context": [],
+      "preps": [
+        {
+          "id": "264490",
+          "lot": "13641",
+          "date": "2026-07-01",
+          "time": "17:53:47",
+          "quantity": 45,
+          "evidence": "K5760"
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "id": "312",
+      "name": "HUEVO COCIDO - X UNIDAD",
+      "baseUnit": "UNIDAD",
+      "units": [
+        {
+          "label": "unidades",
+          "factor": 1,
+          "integer": true
+        }
+      ],
+      "refs": [],
+      "context": [
+        "F9"
+      ],
+      "preps": [
+        {
+          "id": "264524",
+          "lot": "13646",
+          "date": "2026-07-01",
+          "time": "11:45:05",
+          "quantity": 393,
+          "evidence": "K8568"
+        }
+      ],
+      "aliases": [
+        "HUEVO COCIDO - X 10 UND"
+      ]
+    },
+    {
+      "id": "175",
+      "name": "BROWNIE CLASICO 1.4KG  - MOLDE X 10 UN",
+      "baseUnit": "UNIDAD",
+      "units": [
+        {
+          "label": "unidades",
+          "factor": 1,
+          "integer": true
+        }
+      ],
+      "refs": [],
+      "context": [
+        "F10"
+      ],
+      "preps": [
+        {
+          "id": "264534",
+          "lot": "13647",
+          "date": "2026-07-01",
+          "time": "11:50:08",
+          "quantity": 50,
+          "evidence": "K8712"
+        }
+      ],
+      "aliases": [
+        "BROWNIE - MOLDE X 10 UN"
+      ]
+    },
+    {
+      "id": "1596",
+      "name": "BROWNIE MARMOLEADO 1.4KG - MOLDE X 10 UN",
+      "baseUnit": "UNIDAD",
+      "units": [
+        {
+          "label": "unidades",
+          "factor": 1,
+          "integer": true
+        }
+      ],
+      "refs": [],
+      "context": [
+        "F11"
+      ],
+      "preps": [
+        {
+          "id": "264535",
+          "lot": "13647",
+          "date": "2026-07-01",
+          "time": "11:50:09",
+          "quantity": 150,
+          "evidence": "K13925"
+        }
+      ],
+      "aliases": [
+        "BROWNIE MARMOLEADO - MOLDE X 10 UND"
+      ]
+    },
+    {
+      "id": "1034",
+      "name": "CARROT CAKE X 4 UND (RF)",
+      "baseUnit": "UNIDAD",
+      "units": [
+        {
+          "label": "unidades",
+          "factor": 1,
+          "integer": true
+        }
+      ],
+      "refs": [],
+      "context": [],
+      "preps": [
+        {
+          "id": "264484",
+          "lot": "13639",
+          "date": "2026-07-01",
+          "time": "10:42:17",
+          "quantity": 20,
+          "evidence": "K14477"
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "id": "143",
+      "name": "CHOCLO COCIDO - PQ x 0.5 KG",
+      "baseUnit": "KILOS",
+      "units": [
+        {
+          "label": "kg",
+          "factor": 1,
+          "integer": false
+        }
+      ],
+      "refs": [],
+      "context": [],
+      "preps": [
+        {
+          "id": "264519",
+          "lot": "13646",
+          "date": "2026-07-01",
+          "time": "11:45:00",
+          "quantity": 9,
+          "evidence": "K7008"
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "id": "1357",
+      "name": "POLLO DESHILACHADO PQ X 80 GR",
+      "baseUnit": "UNIDAD",
+      "units": [
+        {
+          "label": "unidades",
+          "factor": 1,
+          "integer": true
+        }
+      ],
+      "refs": [],
+      "context": [],
+      "preps": [
+        {
+          "id": "264511",
+          "lot": "13644",
+          "date": "2026-07-01",
+          "time": "11:35:01",
+          "quantity": 335,
+          "evidence": "K14868"
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "id": "2960",
+      "name": "PIMIENTO SALTEADO PQ X 100 GR",
+      "baseUnit": "UNIDAD",
+      "units": [
+        {
+          "label": "unidades",
+          "factor": 1,
+          "integer": true
+        }
+      ],
+      "refs": [],
+      "context": [],
+      "preps": [
+        {
+          "id": "264493",
+          "lot": "13642",
+          "date": "2026-07-01",
+          "time": "11:25:02",
+          "quantity": 30,
+          "evidence": "K3858"
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "id": "CAT-101",
+      "name": "QUICHE DE QUINUA - MOLDE X 6 UNIDAD",
+      "baseUnit": "UNIDAD",
+      "units": [
+        {
+          "label": "moldes",
+          "factor": 6,
+          "integer": true
+        }
+      ],
+      "preps": [],
+      "refs": [],
+      "context": [
+        "B101"
+      ],
+      "aliases": []
+    }
+  ],
+  "evidence": {
+    "K3573": {
+      "id": "K3573",
+      "source": "kardex",
+      "file": "CG_Rest_ExportInvKardex_Jul.xlsx",
+      "sheet": "Sheet1",
+      "range": "C3573:O3573",
+      "cells": {
+        "C3573": 2980,
+        "D3573": "ALFAJORES GRANDES (RF)",
+        "E3573": "01-07-2026",
+        "F3573": "10:42:18",
+        "G3573": "Almacen Principal CIP",
+        "H3573": "ENTRADA, POR PREPARACION DE RECETA. ",
+        "I3573": "PREPARACION RECETA Nº: 264485 LOTE Nº: 13639",
+        "L3573": "UNIDAD",
+        "M3573": 50,
+        "N3573": 0,
+        "O3573": 62
+      },
+      "title": "ENTRADA, POR PREPARACION DE RECETA.",
+      "kind": "real",
+      "note": "Valores originales. El saldo STOCK se muestra solo como contexto, no como cantidad producida."
+    },
+    "K3152": {
+      "id": "K3152",
+      "source": "kardex",
+      "file": "CG_Rest_ExportInvKardex_Jul.xlsx",
+      "sheet": "Sheet1",
+      "range": "C3152:O3152",
+      "cells": {
+        "C3152": 2927,
+        "D3152": "ARROZ INTEGRAL COCIDO PQ X 0.1 KG",
+        "E3152": "01-07-2026",
+        "F3152": "11:45:04",
+        "G3152": "Almacen Principal CIP",
+        "H3152": "ENTRADA, POR PREPARACION DE RECETA. ",
+        "I3152": "PREPARACION RECETA Nº: 264523 LOTE Nº: 13646",
+        "L3152": "UNIDAD",
+        "M3152": 344,
+        "N3152": 0,
+        "O3152": 357
+      },
+      "title": "ENTRADA, POR PREPARACION DE RECETA.",
+      "kind": "real",
+      "note": "Valores originales. El saldo STOCK se muestra solo como contexto, no como cantidad producida."
+    },
+    "K11701": {
+      "id": "K11701",
+      "source": "kardex",
+      "file": "CG_Rest_ExportInvKardex_Jul.xlsx",
+      "sheet": "Sheet1",
+      "range": "C11701:O11701",
+      "cells": {
+        "C11701": 3252,
+        "D11701": "CHOCOPROTEICO (RF)",
+        "E11701": "01-07-2026",
+        "F11701": "17:48:36",
+        "G11701": "Almacen Principal CIP",
+        "H11701": "ENTRADA, POR PREPARACION DE RECETA. ",
+        "I11701": "PREPARACION RECETA Nº: 264486 LOTE Nº: 13640",
+        "L11701": "UNIDAD",
+        "M11701": 23,
+        "N11701": 0,
+        "O11701": 20
+      },
+      "title": "ENTRADA, POR PREPARACION DE RECETA.",
+      "kind": "real",
+      "note": "Valores originales. El saldo STOCK se muestra solo como contexto, no como cantidad producida."
+    },
+    "K16259": {
+      "id": "K16259",
+      "source": "kardex",
+      "file": "CG_Rest_ExportInvKardex_Jul.xlsx",
+      "sheet": "Sheet1",
+      "range": "C16259:O16259",
+      "cells": {
+        "C16259": 313,
+        "D16259": "QUINUA PERLADA COCIDA - PQ X 0.6 KG",
+        "E16259": "01-07-2026",
+        "F16259": "11:45:02",
+        "G16259": "Almacen Principal CIP",
+        "H16259": "ENTRADA, POR PREPARACION DE RECETA. ",
+        "I16259": "PREPARACION RECETA Nº: 264521 LOTE Nº: 13646",
+        "L16259": "KILOS",
+        "M16259": 19.8,
+        "N16259": 0,
+        "O16259": 19.7
+      },
+      "title": "ENTRADA, POR PREPARACION DE RECETA.",
+      "kind": "real",
+      "note": "Valores originales. El saldo STOCK se muestra solo como contexto, no como cantidad producida."
+    },
+    "K1061": {
+      "id": "K1061",
+      "source": "kardex",
+      "file": "CG_Rest_ExportInvKardex_Jul.xlsx",
+      "sheet": "Sheet1",
+      "range": "C1061:O1061",
+      "cells": {
+        "C1061": 3123,
+        "D1061": "SALSA DE PAVO PQ 0.500 GR",
+        "E1061": "01-07-2026",
+        "F1061": "11:30:09",
+        "G1061": "Almacen Principal CIP",
+        "H1061": "ENTRADA, POR PREPARACION DE RECETA. ",
+        "I1061": "PREPARACION RECETA Nº: 264503 LOTE Nº: 13643",
+        "L1061": "LITRO",
+        "M1061": 3,
+        "N1061": 0,
+        "O1061": 3.88
+      },
+      "title": "ENTRADA, POR PREPARACION DE RECETA.",
+      "kind": "real",
+      "note": "Valores originales. El saldo STOCK se muestra solo como contexto, no como cantidad producida."
+    },
+    "K14754": {
+      "id": "K14754",
+      "source": "kardex",
+      "file": "CG_Rest_ExportInvKardex_Jul.xlsx",
+      "sheet": "Sheet1",
+      "range": "C14754:O14754",
+      "cells": {
+        "C14754": 1024,
+        "D14754": "TOCINO CROCANTE PQ X 100 GR",
+        "E14754": "01-07-2026",
+        "F14754": "11:35:00",
+        "G14754": "Almacen Principal CIP",
+        "H14754": "ENTRADA, POR PREPARACION DE RECETA. ",
+        "I14754": "PREPARACION RECETA Nº: 264510 LOTE Nº: 13644",
+        "L14754": "KILOS",
+        "M14754": 3.4,
+        "N14754": 0,
+        "O14754": 2.82
+      },
+      "title": "ENTRADA, POR PREPARACION DE RECETA.",
+      "kind": "real",
+      "note": "Valores originales. El saldo STOCK se muestra solo como contexto, no como cantidad producida."
+    },
+    "K14753": {
+      "id": "K14753",
+      "source": "kardex",
+      "file": "CG_Rest_ExportInvKardex_Jul.xlsx",
+      "sheet": "Sheet1",
+      "range": "C14753:O14753",
+      "cells": {
+        "C14753": 1024,
+        "D14753": "TOCINO CROCANTE PQ X 100 GR",
+        "E14753": "01-07-2026",
+        "F14753": "11:55:00",
+        "G14753": "Almacen Principal CIP",
+        "H14753": "ENTRADA, POR PREPARACION DE RECETA. ",
+        "I14753": "PREPARACION RECETA Nº: 264541 LOTE Nº: 13648",
+        "L14753": "KILOS",
+        "M14753": 1.5,
+        "N14753": 0,
+        "O14753": 4.32
+      },
+      "title": "ENTRADA, POR PREPARACION DE RECETA.",
+      "kind": "real",
+      "note": "Valores originales. El saldo STOCK se muestra solo como contexto, no como cantidad producida."
+    },
+    "K5760": {
+      "id": "K5760",
+      "source": "kardex",
+      "file": "CG_Rest_ExportInvKardex_Jul.xlsx",
+      "sheet": "Sheet1",
+      "range": "C5760:O5760",
+      "cells": {
+        "C5760": 3017,
+        "D5760": "BANANA CAKE MOLDE X 5 UND",
+        "E5760": "01-07-2026",
+        "F5760": "17:53:47",
+        "G5760": "Almacen Principal CIP",
+        "H5760": "ENTRADA, POR PREPARACION DE RECETA. ",
+        "I5760": "PREPARACION RECETA Nº: 264490 LOTE Nº: 13641",
+        "L5760": "UNIDAD",
+        "M5760": 45,
+        "N5760": 0,
+        "O5760": 21
+      },
+      "title": "ENTRADA, POR PREPARACION DE RECETA.",
+      "kind": "real",
+      "note": "Valores originales. El saldo STOCK se muestra solo como contexto, no como cantidad producida."
+    },
+    "K8568": {
+      "id": "K8568",
+      "source": "kardex",
+      "file": "CG_Rest_ExportInvKardex_Jul.xlsx",
+      "sheet": "Sheet1",
+      "range": "C8568:O8568",
+      "cells": {
+        "C8568": 312,
+        "D8568": "HUEVO COCIDO - X UNIDAD",
+        "E8568": "01-07-2026",
+        "F8568": "11:45:05",
+        "G8568": "Almacen Principal CIP",
+        "H8568": "ENTRADA, POR PREPARACION DE RECETA. ",
+        "I8568": "PREPARACION RECETA Nº: 264524 LOTE Nº: 13646",
+        "L8568": "UNIDAD",
+        "M8568": 393,
+        "N8568": 0,
+        "O8568": 402
+      },
+      "title": "ENTRADA, POR PREPARACION DE RECETA.",
+      "kind": "real",
+      "note": "Valores originales. El saldo STOCK se muestra solo como contexto, no como cantidad producida."
+    },
+    "K8712": {
+      "id": "K8712",
+      "source": "kardex",
+      "file": "CG_Rest_ExportInvKardex_Jul.xlsx",
+      "sheet": "Sheet1",
+      "range": "C8712:O8712",
+      "cells": {
+        "C8712": 175,
+        "D8712": "BROWNIE CLASICO 1.4KG  - MOLDE X 10 UN",
+        "E8712": "01-07-2026",
+        "F8712": "11:50:08",
+        "G8712": "Almacen Principal CIP",
+        "H8712": "ENTRADA, POR PREPARACION DE RECETA. ",
+        "I8712": "PREPARACION RECETA Nº: 264534 LOTE Nº: 13647",
+        "L8712": "UNIDAD",
+        "M8712": 50,
+        "N8712": 0,
+        "O8712": 56
+      },
+      "title": "ENTRADA, POR PREPARACION DE RECETA.",
+      "kind": "real",
+      "note": "Valores originales. El saldo STOCK se muestra solo como contexto, no como cantidad producida."
+    },
+    "K13925": {
+      "id": "K13925",
+      "source": "kardex",
+      "file": "CG_Rest_ExportInvKardex_Jul.xlsx",
+      "sheet": "Sheet1",
+      "range": "C13925:O13925",
+      "cells": {
+        "C13925": 1596,
+        "D13925": "BROWNIE MARMOLEADO 1.4KG - MOLDE X 10 UN",
+        "E13925": "01-07-2026",
+        "F13925": "11:50:09",
+        "G13925": "Almacen Principal CIP",
+        "H13925": "ENTRADA, POR PREPARACION DE RECETA. ",
+        "I13925": "PREPARACION RECETA Nº: 264535 LOTE Nº: 13647",
+        "L13925": "UNIDAD",
+        "M13925": 150,
+        "N13925": 0,
+        "O13925": 157
+      },
+      "title": "ENTRADA, POR PREPARACION DE RECETA.",
+      "kind": "real",
+      "note": "Valores originales. El saldo STOCK se muestra solo como contexto, no como cantidad producida."
+    },
+    "K14477": {
+      "id": "K14477",
+      "source": "kardex",
+      "file": "CG_Rest_ExportInvKardex_Jul.xlsx",
+      "sheet": "Sheet1",
+      "range": "C14477:O14477",
+      "cells": {
+        "C14477": 1034,
+        "D14477": "CARROT CAKE X 4 UND (RF)",
+        "E14477": "01-07-2026",
+        "F14477": "10:42:17",
+        "G14477": "Almacen Principal CIP",
+        "H14477": "ENTRADA, POR PREPARACION DE RECETA. ",
+        "I14477": "PREPARACION RECETA Nº: 264484 LOTE Nº: 13639",
+        "L14477": "UNIDAD",
+        "M14477": 20,
+        "N14477": 0,
+        "O14477": 20
+      },
+      "title": "ENTRADA, POR PREPARACION DE RECETA.",
+      "kind": "real",
+      "note": "Valores originales. El saldo STOCK se muestra solo como contexto, no como cantidad producida."
+    },
+    "K7008": {
+      "id": "K7008",
+      "source": "kardex",
+      "file": "CG_Rest_ExportInvKardex_Jul.xlsx",
+      "sheet": "Sheet1",
+      "range": "C7008:O7008",
+      "cells": {
+        "C7008": 143,
+        "D7008": "CHOCLO COCIDO - PQ x 0.5 KG",
+        "E7008": "01-07-2026",
+        "F7008": "11:45:00",
+        "G7008": "Almacen Principal CIP",
+        "H7008": "ENTRADA, POR PREPARACION DE RECETA. ",
+        "I7008": "PREPARACION RECETA Nº: 264519 LOTE Nº: 13646",
+        "L7008": "KILOS",
+        "M7008": 9,
+        "N7008": 0,
+        "O7008": 8.93
+      },
+      "title": "ENTRADA, POR PREPARACION DE RECETA.",
+      "kind": "real",
+      "note": "Valores originales. El saldo STOCK se muestra solo como contexto, no como cantidad producida."
+    },
+    "K14868": {
+      "id": "K14868",
+      "source": "kardex",
+      "file": "CG_Rest_ExportInvKardex_Jul.xlsx",
+      "sheet": "Sheet1",
+      "range": "C14868:O14868",
+      "cells": {
+        "C14868": 1357,
+        "D14868": "POLLO DESHILACHADO PQ X 80 GR",
+        "E14868": "01-07-2026",
+        "F14868": "11:35:01",
+        "G14868": "Almacen Principal CIP",
+        "H14868": "ENTRADA, POR PREPARACION DE RECETA. ",
+        "I14868": "PREPARACION RECETA Nº: 264511 LOTE Nº: 13644",
+        "L14868": "UNIDAD",
+        "M14868": 335,
+        "N14868": 0,
+        "O14868": 341
+      },
+      "title": "ENTRADA, POR PREPARACION DE RECETA.",
+      "kind": "real",
+      "note": "Valores originales. El saldo STOCK se muestra solo como contexto, no como cantidad producida."
+    },
+    "K3858": {
+      "id": "K3858",
+      "source": "kardex",
+      "file": "CG_Rest_ExportInvKardex_Jul.xlsx",
+      "sheet": "Sheet1",
+      "range": "C3858:O3858",
+      "cells": {
+        "C3858": 2960,
+        "D3858": "PIMIENTO SALTEADO PQ X 100 GR",
+        "E3858": "01-07-2026",
+        "F3858": "11:25:02",
+        "G3858": "Almacen Principal CIP",
+        "H3858": "ENTRADA, POR PREPARACION DE RECETA. ",
+        "I3858": "PREPARACION RECETA Nº: 264493 LOTE Nº: 13642",
+        "L3858": "UNIDAD",
+        "M3858": 30,
+        "N3858": 0,
+        "O3858": 30
+      },
+      "title": "ENTRADA, POR PREPARACION DE RECETA.",
+      "kind": "real",
+      "note": "Valores originales. El saldo STOCK se muestra solo como contexto, no como cantidad producida."
+    },
+    "F14": {
+      "id": "F14",
+      "source": "formato",
+      "file": "Formato de pedidos.xlsx",
+      "sheet": "Pedido",
+      "range": "A14, B14, C14, D14",
+      "cells": {
+        "A14": "ALFAJOR X 5 UND",
+        "B14": "PAQ X 5 UND",
+        "C14": "ALFAJORES GRANDES (RF)",
+        "D14": "POSTRES"
+      },
+      "title": "Equivalencia de nombres en formato de pedidos",
+      "kind": "real",
+      "note": "Uso como catálogo en la simulación; no acredita una entrega en julio."
+    },
+    "F8": {
+      "id": "F8",
+      "source": "formato",
+      "file": "Formato de pedidos.xlsx",
+      "sheet": "Pedido",
+      "range": "A8, B8, C8, D8",
+      "cells": {
+        "A8": "ARROZ INTEGRAL PQ X 100 GR",
+        "B8": "BOLSA",
+        "C8": "ARROZ INTEGRAL COCIDO PQ X 0.1 KG",
+        "D8": "COCIDOS"
+      },
+      "title": "Equivalencia de nombres en formato de pedidos",
+      "kind": "real",
+      "note": "Uso como catálogo en la simulación; no acredita una entrega en julio."
+    },
+    "F45": {
+      "id": "F45",
+      "source": "formato",
+      "file": "Formato de pedidos.xlsx",
+      "sheet": "Pedido",
+      "range": "A45, B45, C45, D45",
+      "cells": {
+        "A45": "CHOCOPROTEICO",
+        "B45": "UNIDAD",
+        "C45": "CHOCOPROTEICO (RF)",
+        "D45": "POSTRES"
+      },
+      "title": "Equivalencia de nombres en formato de pedidos",
+      "kind": "real",
+      "note": "Uso como catálogo en la simulación; no acredita una entrega en julio."
+    },
+    "F42": {
+      "id": "F42",
+      "source": "formato",
+      "file": "Formato de pedidos.xlsx",
+      "sheet": "Pedido",
+      "range": "A42, B42, C42, D42",
+      "cells": {
+        "A42": "SALSA DE PAVO PQ 500 GR",
+        "B42": "BOLSA",
+        "C42": "SALSA DE PAVO PQ 0.500 GR",
+        "D42": "SALSAS"
+      },
+      "title": "Equivalencia de nombres en formato de pedidos",
+      "kind": "real",
+      "note": "Uso como catálogo en la simulación; no acredita una entrega en julio."
+    },
+    "F20": {
+      "id": "F20",
+      "source": "formato",
+      "file": "Formato de pedidos.xlsx",
+      "sheet": "Pedido",
+      "range": "A20, B20, C20, D20",
+      "cells": {
+        "A20": "TOCINO CROCANTE X 100GR",
+        "B20": "BOLSA",
+        "C20": "TOCINO CROCANTE PQ X 100 GR",
+        "D20": "PREPARACIONES"
+      },
+      "title": "Equivalencia de nombres en formato de pedidos",
+      "kind": "real",
+      "note": "Uso como catálogo en la simulación; no acredita una entrega en julio."
+    },
+    "F9": {
+      "id": "F9",
+      "source": "formato",
+      "file": "Formato de pedidos.xlsx",
+      "sheet": "Pedido",
+      "range": "A9, B9, C9, D9",
+      "cells": {
+        "A9": "HUEVO COCIDO - X 10 UND",
+        "B9": "PAQ x 10 UND",
+        "C9": "HUEVO COCIDO - X UNIDAD",
+        "D9": "COCIDOS"
+      },
+      "title": "Equivalencia de nombres en formato de pedidos",
+      "kind": "real",
+      "note": "Uso como catálogo en la simulación; no acredita una entrega en julio."
+    },
+    "F10": {
+      "id": "F10",
+      "source": "formato",
+      "file": "Formato de pedidos.xlsx",
+      "sheet": "Pedido",
+      "range": "A10, B10, C10, D10",
+      "cells": {
+        "A10": "BROWNIE - MOLDE X 10 UN",
+        "B10": "MOLDE X 10 PORC",
+        "C10": "BROWNIE CLASICO 1.4KG - MOLDE X 10 UN",
+        "D10": "POSTRES"
+      },
+      "title": "Equivalencia de nombres en formato de pedidos",
+      "kind": "real",
+      "note": "Uso como catálogo en la simulación; no acredita una entrega en julio."
+    },
+    "F11": {
+      "id": "F11",
+      "source": "formato",
+      "file": "Formato de pedidos.xlsx",
+      "sheet": "Pedido",
+      "range": "A11, B11, C11, D11",
+      "cells": {
+        "A11": "BROWNIE MARMOLEADO - MOLDE X 10 UND",
+        "B11": "MOLDE X 10 PORC",
+        "C11": "BROWNIE MARMOLEADO 1.4KG - MOLDE X 10 UN",
+        "D11": "POSTRES"
+      },
+      "title": "Equivalencia de nombres en formato de pedidos",
+      "kind": "real",
+      "note": "Uso como catálogo en la simulación; no acredita una entrega en julio."
+    },
+    "B34": {
+      "id": "B34",
+      "source": "ordenes",
+      "file": "ORDENES DE PEDIDOS DE LAS TIENDAS 28.02.26.xlsx",
+      "sheet": "BASE",
+      "range": "A34, B34, D34, E34",
+      "cells": {
+        "A34": "QUINUA PERLADA COCIDA - PQ X 0.600 KG",
+        "B34": 0.6,
+        "D34": "KILOS",
+        "E34": "BOLSA"
+      },
+      "title": "Factor real: 0,6 kg por bolsa",
+      "kind": "real",
+      "note": "Se asume vigente para el ensayo. Un factor no prueba una entrega."
+    },
+    "R24": {
+      "id": "R24",
+      "source": "recepcion",
+      "file": "Recepción de materias primas e insumos.xlsx",
+      "sheet": "Respuestas de formulario 1",
+      "range": "B24, C24, F24, H24",
+      "cells": {
+        "B24": "2026-07-02T00:00:00",
+        "C24": "QUINUA PERLADA BOLSA X 1 KG",
+        "F24": "ATC2_QB5667",
+        "H24": 50.0
+      },
+      "title": "Recepción de quinua del día siguiente",
+      "kind": "excluded",
+      "note": "Fecha 02/07/2026: posterior a la preparación del 01/07. Sin vínculo de consumo por lote."
+    },
+    "K6408": {
+      "id": "K6408",
+      "source": "kardex",
+      "file": "CG_Rest_ExportInvKardex_Jul.xlsx",
+      "sheet": "Sheet1",
+      "range": "C6408:O6408",
+      "cells": {
+        "C6408": 131,
+        "D6408": "QUINUA PERLADA",
+        "E6408": "01-07-2026",
+        "F6408": "11:45:02",
+        "G6408": "Almacen Principal CIP",
+        "H6408": "SALIDA, POR PREPARACION DE RECETA. ",
+        "I6408": "PREPARACION RECETA Nº: 264521 LOTE Nº: 13646",
+        "L6408": "KILOS",
+        "M6408": 0,
+        "N6408": 10.5,
+        "O6408": 88.18
+      },
+      "title": "SALIDA, POR PREPARACION DE RECETA.",
+      "kind": "real",
+      "note": "Valores originales. El saldo STOCK se muestra solo como contexto, no como cantidad producida."
+    },
+    "K6572": {
+      "id": "K6572",
+      "source": "kardex",
+      "file": "CG_Rest_ExportInvKardex_Jul.xlsx",
+      "sheet": "Sheet1",
+      "range": "C6572:O6572",
+      "cells": {
+        "C6572": 126,
+        "D6572": "SAL FINA",
+        "E6572": "01-07-2026",
+        "F6572": "11:45:02",
+        "G6572": "Almacen Principal CIP",
+        "H6572": "SALIDA, POR PREPARACION DE RECETA. ",
+        "I6572": "PREPARACION RECETA Nº: 264521 LOTE Nº: 13646",
+        "L6572": "KILOS",
+        "M6572": 0,
+        "N6572": 0.105,
+        "O6572": -5.936
+      },
+      "title": "SALIDA, POR PREPARACION DE RECETA.",
+      "kind": "real",
+      "note": "Valores originales. El saldo STOCK se muestra solo como contexto, no como cantidad producida."
+    },
+    "K11700": {
+      "id": "K11700",
+      "source": "kardex",
+      "file": "CG_Rest_ExportInvKardex_Jul.xlsx",
+      "sheet": "Sheet1",
+      "range": "C11700:O11700",
+      "cells": {
+        "C11700": 3252,
+        "D11700": "CHOCOPROTEICO (RF)",
+        "E11700": "01-07-2026",
+        "F11700": "17:49:36",
+        "G11700": "Almacen Principal CIP",
+        "H11700": "SALIDA, POR MERMA. ",
+        "I11700": " Nº: 30004",
+        "L11700": "UNIDAD",
+        "M11700": 0,
+        "N11700": 1,
+        "O11700": 19
+      },
+      "title": "SALIDA, POR MERMA.",
+      "kind": "real",
+      "note": "Valores originales. El saldo STOCK se muestra solo como contexto, no como cantidad producida."
+    },
+    "K10145": {
+      "id": "K10145",
+      "source": "kardex",
+      "file": "CG_Rest_ExportInvKardex_Jul.xlsx",
+      "sheet": "Sheet1",
+      "range": "C10145:O10145",
+      "cells": {
+        "C10145": 78,
+        "D10145": "ALMENDRA",
+        "E10145": "01-07-2026",
+        "F10145": "17:48:36",
+        "G10145": "Almacen Principal CIP",
+        "H10145": "SALIDA, POR PREPARACION DE RECETA. ",
+        "I10145": "PREPARACION RECETA Nº: 264486 LOTE Nº: 13640",
+        "L10145": "KILOS",
+        "M10145": 0,
+        "N10145": 0.286,
+        "O10145": -0.326
+      },
+      "title": "SALIDA, POR PREPARACION DE RECETA.",
+      "kind": "real",
+      "note": "Valores originales. El saldo STOCK se muestra solo como contexto, no como cantidad producida."
+    },
+    "K11680": {
+      "id": "K11680",
+      "source": "kardex",
+      "file": "CG_Rest_ExportInvKardex_Jul.xlsx",
+      "sheet": "Sheet1",
+      "range": "C11680:O11680",
+      "cells": {
+        "C11680": 3251,
+        "D11680": "QUEQUE (CHOCOPROTEICO)",
+        "E11680": "01-07-2026",
+        "F11680": "17:48:36",
+        "G11680": "Almacen Principal CIP",
+        "H11680": "SALIDA, POR PREPARACION DE RECETA. ",
+        "I11680": "PREPARACION RECETA Nº: 264486 LOTE Nº: 13640",
+        "L11680": "UNIDAD",
+        "M11680": 0,
+        "N11680": 22,
+        "O11680": -22
+      },
+      "title": "SALIDA, POR PREPARACION DE RECETA.",
+      "kind": "real",
+      "note": "Valores originales. El saldo STOCK se muestra solo como contexto, no como cantidad producida."
+    },
+    "K11683": {
+      "id": "K11683",
+      "source": "kardex",
+      "file": "CG_Rest_ExportInvKardex_Jul.xlsx",
+      "sheet": "Sheet1",
+      "range": "C11683:O11683",
+      "cells": {
+        "C11683": 3250,
+        "D11683": "PUDDING (CHOCOPROTEICO)",
+        "E11683": "01-07-2026",
+        "F11683": "17:48:36",
+        "G11683": "Almacen Principal CIP",
+        "H11683": "SALIDA, POR PREPARACION DE RECETA. ",
+        "I11683": "PREPARACION RECETA Nº: 264486 LOTE Nº: 13640",
+        "L11683": "UNIDAD",
+        "M11683": 0,
+        "N11683": 22,
+        "O11683": -22
+      },
+      "title": "SALIDA, POR PREPARACION DE RECETA.",
+      "kind": "real",
+      "note": "Valores originales. El saldo STOCK se muestra solo como contexto, no como cantidad producida."
+    },
+    "K3714": {
+      "id": "K3714",
+      "source": "kardex",
+      "file": "CG_Rest_ExportInvKardex_Jul.xlsx",
+      "sheet": "Sheet1",
+      "range": "C3714:O3714",
+      "cells": {
+        "C3714": 3012,
+        "D3714": "MANJAR DE OLLA X PQ 0.12 KG",
+        "E3714": "01-07-2026",
+        "F3714": "10:42:18",
+        "G3714": "Almacen Principal CIP",
+        "H3714": "SALIDA, POR PREPARACION DE RECETA. ",
+        "I3714": "PREPARACION RECETA Nº: 264485 LOTE Nº: 13639",
+        "L3714": "KILOS",
+        "M3714": 0,
+        "N3714": 3.6,
+        "O3714": -3.48
+      },
+      "title": "SALIDA, POR PREPARACION DE RECETA.",
+      "kind": "real",
+      "note": "Valores originales. El saldo STOCK se muestra solo como contexto, no como cantidad producida."
+    },
+    "K11474": {
+      "id": "K11474",
+      "source": "kardex",
+      "file": "CG_Rest_ExportInvKardex_Jul.xlsx",
+      "sheet": "Sheet1",
+      "range": "C11474:O11474",
+      "cells": {
+        "C11474": 3269,
+        "D11474": "ALFAJORES GRANDES TAPAS",
+        "E11474": "01-07-2026",
+        "F11474": "10:42:18",
+        "G11474": "Almacen Principal CIP",
+        "H11474": "SALIDA, POR PREPARACION DE RECETA. ",
+        "I11474": "PREPARACION RECETA Nº: 264485 LOTE Nº: 13639",
+        "L11474": "UNIDAD",
+        "M11474": 0,
+        "N11474": 100,
+        "O11474": 120
+      },
+      "title": "SALIDA, POR PREPARACION DE RECETA.",
+      "kind": "real",
+      "note": "Valores originales. El saldo STOCK se muestra solo como contexto, no como cantidad producida."
+    },
+    "B363": {
+      "id": "B363",
+      "source": "ordenes",
+      "file": "ORDENES DE PEDIDOS DE LAS TIENDAS 28.02.26.xlsx",
+      "sheet": "BASE",
+      "range": "A363, B363, D363, E363",
+      "cells": {
+        "A363": "TOCINO CROCANTE X 100GR",
+        "B363": 0.1,
+        "D363": null,
+        "E363": null
+      },
+      "title": "Factor de tocino con unidad base vacía",
+      "kind": "real",
+      "note": "El factor 0,1 existe, pero sus unidades están vacías. No se usa para convertir bolsas; el ensayo recibe kg como el Kardex. Las dos preparaciones no se suman sin asignación."
+    },
+    "B9": {
+      "id": "B9",
+      "source": "ordenes",
+      "file": "ORDENES DE PEDIDOS DE LAS TIENDAS 28.02.26.xlsx",
+      "sheet": "BASE",
+      "range": "A9, B9, D9, E9",
+      "cells": {
+        "A9": "SALSA DE PAVO PQ 500 GR",
+        "B9": 0.5,
+        "D9": "KILOS",
+        "E9": "BOLSA"
+      },
+      "title": "Conflicto real: factor en kilos y Kardex en litros",
+      "kind": "real",
+      "note": "No convertir kg a litros sin una equivalencia validada."
+    },
+    "B101": {
+      "id": "B101",
+      "source": "ordenes",
+      "file": "ORDENES DE PEDIDOS DE LAS TIENDAS 28.02.26.xlsx",
+      "sheet": "BASE",
+      "range": "A101, B101, D101, E101",
+      "cells": {
+        "A101": "QUICHE DE QUINUA - MOLDE X 6 UNIDAD",
+        "B101": 6,
+        "D101": "UNIDAD",
+        "E101": "MOLDE"
+      },
+      "title": "Producto en catálogo sin preparación localizada",
+      "kind": "real",
+      "note": ""
+    },
+    "MHEAD": {
+      "id": "MHEAD",
+      "source": "mermas",
+      "file": "CG_Rest_ExportMermas_Jul.xlsx",
+      "sheet": "Sheet1",
+      "range": "A1, A4, G4, J4",
+      "cells": {
+        "A1": "Reporte de salidas de stock desde 15-06-2026 00:00:00 hasta 28-06-2026 23:59:59",
+        "A4": "Cod.",
+        "G4": "Importe",
+        "J4": "Razon"
+      },
+      "title": "Periodo y estructura del reporte de mermas",
+      "kind": "excluded",
+      "note": "Contiene importes y razones de junio; no se usa como detalle de unidades de una entrega de julio."
+    },
+    "SHEAD": {
+      "id": "SHEAD",
+      "source": "stock",
+      "file": "Informe_inventario_2026-08-25_21.38.45 insumos.xlsx",
+      "sheet": "Sheet1",
+      "range": "A1, A2, C4, F4, I4",
+      "cells": {
+        "A1": "Reporte de stock",
+        "A2": "Fecha: 25/08/2026 23:59:59 | Almacén: Almacen Principal CIP | Local: Centro De Producción | Tipo: Insumos",
+        "C4": "Item",
+        "F4": "Unidad medida",
+        "I4": "Stock"
+      },
+      "title": "Inventario de agosto",
+      "kind": "excluded",
+      "note": "Periodo y alcance distintos: stock de insumos, no entrega de producto terminado."
+    },
+    "REQ6": {
+      "id": "REQ6",
+      "source": "recetas",
+      "file": "Insumos_descartables_recetas_mermas.xlsx",
+      "sheet": "Recetas total",
+      "range": "A1, A2, A5, B5, C5, A6, B6, C6",
+      "cells": {
+        "A1": "Requerimiento de Stock - Recetas",
+        "A2": "Semana 09/03 al 13/03",
+        "A5": "INSUMO / PRODUCTO",
+        "B5": "UNIDAD MEDIDA",
+        "C5": "lunes",
+        "A6": "ALFAJORES GRANDES (RF)",
+        "B6": "UNIDAD",
+        "C6": 28
+      },
+      "title": "Requerimiento histórico de alfajores",
+      "kind": "context",
+      "note": "28 es un requerimiento de lunes; no es lo producido ni declarado para esta recepción."
+    },
+    "ORDER18440": {
+      "id": "ORDER18440",
+      "source": "ordenes",
+      "file": "ORDENES DE PEDIDOS DE LAS TIENDAS 28.02.26.xlsx",
+      "sheet": "PEDIDOS",
+      "range": "A18440, B18440, C18440, E18440, F18440, G18440",
+      "cells": {
+        "A18440": "CHORRILLOS",
+        "B18440": "2026-02-28T00:00:00",
+        "C18440": "ALFAJOR GRANDE",
+        "E18440": "UNIDAD",
+        "F18440": 5,
+        "G18440": 5
+      },
+      "title": "Pedido histórico de alfajores en Chorrillos",
+      "kind": "excluded",
+      "note": "Pedido de febrero: no se usa para cerrar la recepción del 01/07."
+    },
+    "DOC7": {
+      "id": "DOC7",
+      "source": "proceso",
+      "file": "5. Procesos Produccion y almacen -Pickadeli (3).pdf",
+      "sheet": "Página 7",
+      "range": "Reglas de negocio",
+      "cells": {
+        "Regla": "El registro de cocinados, transferencias y salidas puede realizarse al final o incluso al día siguiente."
+      },
+      "title": "Registro posterior documentado",
+      "kind": "context",
+      "note": "Síntesis del contenido de la página indicada, no cita literal ni movimiento transaccional."
+    },
+    "DOC11": {
+      "id": "DOC11",
+      "source": "proceso",
+      "file": "5. Procesos Produccion y almacen -Pickadeli (3).pdf",
+      "sheet": "Página 11",
+      "range": "Pasos 28–35",
+      "cells": {
+        "Paso 31": "Si no cuadra, se revisan reportes de WhatsApp, producción real, transferencias o salidas.",
+        "Paso 32": "Se regulariza el Kardex según sustento disponible."
+      },
+      "title": "Proceso de conciliación actual",
+      "kind": "context",
+      "note": "Síntesis del contenido de la página indicada, no cita literal ni movimiento transaccional."
+    },
+    "CEO2": {
+      "id": "CEO2",
+      "source": "solicitud",
+      "file": "5. Proyecto Integrador - Solicitud data inicial (2).pdf",
+      "sheet": "Página 2",
+      "range": "Preguntas a usuarios internos",
+      "cells": {
+        "Herramientas": "Sistema logístico restaurant.pe y Excel.",
+        "Registro": "Se digitan cantidades a producirse, rendimiento y merma.",
+        "Dificultad": "De tiendas llega una unidad de medida diferente a la del sistema."
+      },
+      "title": "Fuentes y diferencias de unidad documentadas",
+      "kind": "context",
+      "note": "Síntesis del contenido de la página indicada, no cita literal ni movimiento transaccional."
+    }
+  },
+  "defaults": {
+    "date": "2026-07-01",
+    "cutoff": "18:00:00",
+    "warehouse": "Almacén Principal CIP"
+  },
+  "assumptions": [
+    "La entrada por preparación se usa como cantidad declarada de una recepción simulada. No se afirma que el archivo pruebe la entrega física.",
+    "La sesión fija fecha y almacén para que el operario solo elija producto y cantidad. En producción real se necesitaría identificar inequívocamente la recepción.",
+    "Los factores usados requieren validación de vigencia. No se aplica una tolerancia porcentual.",
+    "Confirmaciones, asignaciones y consultas a responsables se simulan; no hay envíos ni actualizaciones externas."
+  ]
+};
+
+
+/* reconcile.js */
+(function(root){
+ 'use strict';
+ const scenarios=[
+  {id:'libre',title:'Prueba libre',product:'2980',suggestion:'Ingresa cualquier cantidad y observa cómo cambia el resultado.',count:null},
+  {id:'coincide',title:'Cantidades coincidentes',product:'2980',count:50,suggestion:'Selecciona Alfajores grandes e ingresa 50 unidades.'},
+  {id:'faltante',title:'Faltante sin explicación',product:'2980',count:48,suggestion:'Ingresa 48 alfajores. El sistema buscará el sustento de las 2 unidades faltantes.'},
+  {id:'sobrante',title:'Sobrante sin explicación',product:'2980',count:52,suggestion:'Ingresa 52 alfajores. Comprueba que un sobrante tampoco se acepta sin sustento.'},
+  {id:'merma',title:'Merma localizada, lote por confirmar',product:'3252',count:22,suggestion:'Ingresa 22 chocoproteicos. Se localizarán una preparación de 23 y una merma de 1 sin lote explícito.'},
+  {id:'conversion',title:'Bolsas y kilos equivalentes',product:'313',count:33,suggestion:'Ingresa 33 bolsas de quinua. El factor de 0,6 kg permite compararlas con 19,8 kg.'},
+  {id:'unidad',title:'Unidades incompatibles',product:'3123',count:6,suggestion:'Ingresa 6 bolsas de salsa de pavo. El sistema encontrará kilos en BASE y litros en Kardex.'},
+  {id:'lotes',title:'Dos preparaciones posibles',product:'1024',count:3.4,suggestion:'Ingresa 3,4 kg de tocino. Existen dos preparaciones y el sistema debe evitar elegir una por conveniencia.'},
+  {id:'tardia',title:'Registro aún no disponible',product:'3017',count:45,cutoff:'17:00:00',suggestion:'Ingresa 45 unidades del registro de Banana cake. El ensayo ocurre a las 17:00 y la preparación aparece a las 17:53:47.'},
+  {id:'sinfuente',title:'Fuente temporalmente no disponible',product:'2980',count:50,offline:true,suggestion:'Ingresa 50 alfajores con el Kardex no disponible en este ensayo. No se debe interpretar la ausencia como cero.'},
+  {id:'sinregistro',title:'Producto sin preparación localizada',product:'CAT-101',count:2,suggestion:'Ingresa 2 moldes de quiche de quinua. El nombre existe en BASE, pero no hay una preparación correspondiente en la muestra.'}
+ ];
+ function parseCount(raw){
+  const s=String(raw??'').trim();
+  if(!s)return {error:'Ingresa la cantidad que contaste. Cero es un conteo válido.'};
+  if(!/^\d+(?:[.,]\d{1,3})?$/.test(s))return {error:'Usa una cantidad igual o mayor que cero, con hasta 3 decimales. No uses separadores de miles.'};
+  const n=Number(s.replace(',','.'));if(!Number.isFinite(n)||n>1000000)return {error:'La cantidad supera el límite de un millón de esta demo. Revisa el dato.'};return {value:n};
+ }
+ function evaluate(data,productId,raw,unitIndex,ctx={}){
+  const p=data.products.find(x=>x.id===productId),parsed=parseCount(raw);
+  if(!p)return {state:'invalid',error:'Selecciona un producto del catálogo de la demo.'};
+  if(parsed.error)return {state:'invalid',error:parsed.error};
+  const unit=p.units[unitIndex];if(!unit)return {state:'invalid',error:'Selecciona una unidad disponible.'};
+  if(unit.integer&&!Number.isInteger(parsed.value))return {state:'invalid',error:'El conteo en unidades, bolsas o moldes debe ser un número entero.'};
+  const count=parsed.value, normalized=unit.factor===null?null:Math.round(count*unit.factor*1e6)/1e6;
+  let base={product:p.id,count,unitIndex,unit:unit.label,normalized,baseUnit:p.baseUnit,declared:null,expected:null,accepted:null,delta:null,prep:null,owner:null,evidence:[],context:[...p.context],rule:null,simulated:[],action:'',reason:''};
+  const pending=(state,title,reason,owner,action)=>({...base,state,title,reason,owner,action});
+  if(ctx.offline)return pending('offline','No se pudo consultar el Kardex','La fuente está deshabilitada en este ensayo. El conteo queda guardado; el sistema no asume una cantidad declarada de cero.','Responsable del sistema','Se prepara un reintento automático. Restauración simulada desde los controles del facilitador.');
+  const all=p.preps.filter(r=>r.date===(ctx.date||'2026-07-01'));
+  const eligible=all.filter(r=>r.time<=(ctx.cutoff||'18:00:00'));
+  if(!eligible.length){
+   base.context.push('DOC7');
+   return pending(all.length?'late':'missing',all.length?'El registro aún no está disponible':'No hay una preparación para este conteo',all.length?'A la hora del ensayo no se ha registrado la preparación. El sistema solicita el dato al origen y conserva tu conteo.':'El producto existe en el catálogo, pero la muestra no contiene una preparación para la fecha y el almacén del ensayo. Un pedido histórico no sustituye ese dato.','Producción / responsable del registro','Consulta preparada con producto, cantidad y contexto. No necesitas volver a escribirlos.');
+  }
+  let prep=eligible.find(r=>r.id===ctx.prepId);const assigned=!!prep;
+  if(!prep&&eligible.length>1){base.evidence=eligible.map(r=>r.evidence);return pending('ambiguous','Hay más de una preparación posible','Se encontraron dos preparaciones del producto. El sistema no suma lotes ni elige el que coincide con tu conteo sin identificar la recepción.','Producción / responsable de la entrega','Solicitud preparada para identificar la preparación correspondiente.');}
+  prep=prep||eligible[0];base.prep=prep;base.declared=prep.quantity;base.expected=prep.quantity;base.evidence=[prep.evidence];
+  if(assigned)base.simulated.push({title:'Asignación de recepción simulada',detail:`El facilitador asignó esta recepción a la preparación ${prep.id}, lote ${prep.lot}. No es una asignación encontrada en el ZIP.`});
+  if(p.conflict){base.evidence.push(p.conflictEvidence);return pending('unitConflict','Las fuentes usan unidades incompatibles','Kardex registra litros; BASE define 0,5 kilos por bolsa para salsa de pavo. No hay equivalencia validada entre kilos y litros.','Producción / responsable del catálogo','Se prepara la revisión de unidad y factor. No se calcula una cantidad aceptada.');}
+  if(unit.evidence)base.evidence.push(unit.evidence);
+  const incident=p.incident && p.incident.time<=(ctx.cutoff||'18:00:00')?p.incident:null;
+  if(incident){
+   base.evidence.push(incident.evidence);
+   if(!ctx.linkIncident)return pending('unlinked','Hay una merma, pero falta vincularla al lote','La preparación registra 23 unidades y existe una salida por merma de 1 del mismo producto, fecha y almacén. La merma no incluye lote: no basta para aceptar 22 automáticamente.','Producción / responsable de la merma','Consulta preparada para confirmar si la merma 30004 corresponde al lote 13640.');
+   base.expected=Math.round((prep.quantity-incident.quantity)*1e6)/1e6;
+   base.simulated.push({title:'Vínculo confirmado solo para el ensayo',detail:'Producción confirma, en una respuesta ficticia, que la merma 30004 de 1 unidad corresponde al lote 13640. La causa física no consta y no se inventa.'});
+  }
+  const confirmed=!!(ctx.response && ctx.response.product===p.id && ctx.response.prep===prep.id && ctx.response.quantity===normalized);
+  if(confirmed){
+   base.expected=normalized;base.simulated.push({title:'Aclaración de Producción simulada',detail:`Respuesta ficticia del responsable: la cantidad de esta entrega es ${normalized} ${p.baseUnit}. Se confirma la cantidad; no se atribuye una causa histórica al archivo.`});
+  }
+  base.delta=Math.round((normalized-base.expected)*1e6)/1e6;
+  if(base.delta===0){
+   const converted=unit.factor!==1;
+   return {...base,state:'matched',title:base.simulated.length?'Diferencia conciliada en el ensayo':converted?'Las cantidades son equivalentes':'El conteo coincide',accepted:count,rule:confirmed?'R3 · Confirmación de cantidad (simulada)':incident?'R2 · Merma vinculada (simulada)':converted?'R1 · Equivalencia de unidades':'R1 · Coincidencia con preparación',reason:confirmed?'La respuesta simulada confirma la cantidad ingresada y queda guardada junto a la referencia original.':incident?`${prep.quantity} registradas − ${incident.quantity} de merma vinculada en el ensayo = ${base.expected} ${p.baseUnit}.`:converted?`${count} ${unit.label} × ${unit.factor} = ${normalized} ${p.baseUnit}. Coincide con la referencia de preparación.`:`El conteo coincide con las ${prep.quantity} ${p.baseUnit} de la preparación ${prep.id}.`,action:'Registro guardado automáticamente. Esta conciliación cuantitativa es una simulación; no modifica Restaurant.pe ni autoriza condiciones de calidad.'};
+  }
+  return pending(base.delta<0?'shortage':'surplus',base.delta<0?'Hay un faltante por aclarar':'Hay un sobrante por aclarar',`El conteo equivale a ${normalized} ${p.baseUnit}, frente a ${base.expected} de referencia. No hay sustento suficiente para aceptar la diferencia. No se aplican tolerancias inventadas.`,'Producción / responsable de la entrega','Consulta preparada con las cantidades y las fuentes localizadas. El seguimiento queda en este mismo caso.');
+ }
+ const api={scenarios,parseCount,evaluate};root.PickadeliV2=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
+})(typeof window!=='undefined'?window:globalThis);
+
+
+/* model.js */
+(function(root){
+'use strict';
+const names={base:'Cierre con dos variaciones',sobrante:'Sobrante',vacio:'Conteo sin completar',unidad:'Kilos y litros incompatibles',lotes:'Dos preparaciones posibles',sinregistro:'Sin preparación disponible',tardia:'Registro tardío',formato:'Cambió una columna',duplicado:'Registro duplicado',obsoleta:'Fuente desactualizada',sinconexion:'Fuente no disponible'};
+const base=[['2980','48'],['3252','22'],['313','33'],['2927','344'],['312','393'],['175','50'],['1034','20'],['3017','45']];
+const mappings={v1:{product:'ProductoID',quantity:'Conteo',unit:'Unidad',receipt:'Recepcion'},v2:{product:'codigo_producto',quantity:'cantidad_fisica',unit:'unidad_conteo',receipt:'recepcion_id'}};
+function adapt(records,version){const map=mappings[version];if(!map)return {error:'Versión de estructura desconocida; lote detenido.',rows:[]};const seen=new Set(),rows=[];for(const rec of records){if(!Object.values(map).every(k=>Object.hasOwn(rec,k)))return {error:'Falta una columna esperada; lote detenido sin sobrescribir datos.',rows:[]};const key=String(rec[map.receipt])+'|'+String(rec[map.product]);if(seen.has(key))return {error:'Clave de recepción y producto duplicada; lote detenido.',rows:[]};seen.add(key);rows.push({id:String(rec[map.product]),count:rec[map.quantity],unitIndex:rec[map.unit],receipt:rec[map.receipt]});}return {rows,error:null};}
+function initial(scenario='base'){
+ let items=base.map(x=>[...x]);if(scenario==='sobrante')items[0][1]='52';if(scenario==='vacio')items[3][1]='';if(scenario==='unidad')items.push(['3123','6']);if(scenario==='lotes')items.push(['1024','3.4']);if(scenario==='sinregistro')items.push(['CAT-101','2']);
+ const raw=items.map(([id,count])=>({ProductoID:id,Conteo:count,Unidad:0,Recepcion:'DEMO-CIP-0107'}));
+ if(scenario==='formato'){raw[0].CantidadNueva=raw[0].Conteo;delete raw[0].Conteo;}
+ if(scenario==='duplicado')raw.push({...raw[0]});
+ const parsed=adapt(raw,'v1');
+ return {version:3,scenario,revision:1,cutoff:scenario==='tardia'?'17:00:00':'18:00:00',source:['formato','duplicado','obsoleta','sinconexion'].includes(scenario)?scenario:'ok',sourceError:parsed.error,adapter:'v1',events:[],tests:[],closed:null,rows:items.map(([id,count])=>({id,count,original:count,unitIndex:0,receipt:'DEMO-CIP-0107',revision:1,note:'',decision:null,context:{}}))};
+}
+function evaluate(data,state,row){const p=data.products.find(x=>x.id===row.id);let r=root.PickadeliV2.evaluate(data,row.id,row.count,row.unitIndex,{date:'2026-07-01',cutoff:state.cutoff,...row.context});
+ if(state.source!=='ok')r={...r,state:'source',accepted:null,declared:null,expected:null,delta:null,evidence:[],simulated:[],reason:'La carga no es confiable. Se conserva el conteo y se bloquea su conciliación hasta revisar el origen.',owner:'Responsable de datos'};
+ else if(row.count==='')r={...r,state:'uncounted',accepted:null,declared:null,delta:null,evidence:[],simulated:[],reason:'El operario aún no registró esta cantidad. Vacío no equivale a cero.',owner:'Operario de conteo'};
+ else if(r.state==='invalid')r={...r,accepted:null,declared:null,delta:null,evidence:[],simulated:[],reason:r.error,owner:'Operario de conteo'};
+ const good=r.state==='matched',hasVariation=good&&r.simulated?.length>0;
+ const group=!good?'pending':hasVariation&&!row.decision?'ready':row.decision?'decided':'matched';
+ const deltaOrigin=r.normalized!=null&&r.declared!=null?Math.round((r.normalized-r.declared)*1e6)/1e6:null;
+ return {...r,p,row,group,deltaOrigin,accepted:row.decision&&good?row.decision.quantity:null,label:({matched:'Coincide',ready:'Sustento recibido',decided:'Decisión registrada',pending:'Pendiente'})[group]};
+}
+function results(data,state){return state.rows.map(row=>evaluate(data,state,row));}
+function summary(data,state){const all=results(data,state);return {all,total:all.length,matched:all.filter(r=>r.group==='matched').length,pending:all.filter(r=>r.group==='pending').length,ready:all.filter(r=>r.group==='ready').length,decided:all.filter(r=>r.group==='decided').length,exceptions:all.filter(r=>r.group!=='matched').length,canClose:all.every(r=>['matched','decided'].includes(r.group))};}
+const api={initial,evaluate,results,summary,adapt,mappings,names};root.PickadeliFinal=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
+})(typeof window!=='undefined'?window:globalThis);
+
+
+/* app.js */
+(()=>{'use strict';
+const D=window.PICKADELI_DATA,M=window.PickadeliFinal,$=id=>document.getElementById(id),KEY='pickadeli-cierre-v3';
+const clone=x=>JSON.parse(JSON.stringify(x)),esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),fmt=x=>x==null?'—':Number(x).toLocaleString('es-PE',{maximumFractionDigits:3});
+let state=M.initial(),storage=true,view='resumen',filter='exceptions',selected=null,toastTimer,trial=null;
+try{const s=JSON.parse(localStorage.getItem(KEY));if(s?.version===3&&Array.isArray(s.rows)&&s.rows.length&&s.rows.every(r=>D.products.some(p=>p.id===r.id)&&r.context&&Number.isInteger(r.unitIndex))&&Array.isArray(s.events)&&Array.isArray(s.tests))state=s;}catch(_){storage=false;}
+const labels={matched:'Coincide',shortage:'Faltante sin explicar',surplus:'Sobrante sin explicar',unlinked:'Merma sin vínculo al lote',unitConflict:'Unidad incompatible',ambiguous:'Recepción por identificar',late:'Registro tardío',missing:'Sin preparación',source:'Fuente bloqueada',uncounted:'Sin conteo',invalid:'Dato inválido'};
+function toast(t){$('toast').textContent=t;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,3400);}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(state));storage=true;}catch(_){storage=false;}$('storage').textContent=storage?'Guardado local en este navegador.':'Almacenamiento bloqueado: exporta el respaldo antes de cerrar.';}
+function event(type,role,details){state.events.push({id:state.events.length+1,at:new Date().toISOString(),type,role,details,revision:state.revision});}
+function change(type,role,details){state.revision++;state.closed=null;event(type,role,details);persist();render();}
+function get(id){return state.rows.find(r=>r.id===id);}function result(id){return M.evaluate(D,state,get(id));}
+function tag(r){return `<span class="badge ${r.group}">${esc(r.label)}</span>`;}
+function difference(r){return r.deltaOrigin==null?'—':`${r.deltaOrigin>0?'+':''}${fmt(r.deltaOrigin)} ${esc(r.baseUnit)}`;}
+function title(k,t,desc,action=''){return `<div class="heading"><div><p class="eyebrow">${k}</p><h1>${t}</h1><p>${desc}</p></div>${action}</div>`;}
+function sourceWarning(){return state.source==='ok'?'':`<div class="notice danger"><b>La fuente necesita revisión: ${esc(M.names[state.source])}.</b> No se confirma ninguna cantidad. El conteo original se conserva. <button class="text-btn" data-go="fuentes">Ver control y recuperación</button></div>`;}
+function owner(r){return r.group==='ready'?'Yamile · revisar sustento':r.group==='decided'?'Yamile · decisión guardada':r.owner||'Sin gestión adicional';}
+function rowHtml(r){return `<tr><td class="product-name">${esc(r.p.name)}<small>ID ${esc(r.p.id)} · ${r.prep?`Prep. ${esc(r.prep.id)} / lote ${esc(r.prep.lot)}`:'Recepción por verificar'}</small></td><td class="num" data-label="Referencia">${fmt(r.declared)}<small>${esc(r.p.baseUnit)}</small></td><td class="num" data-label="Conteo recibido">${esc(r.row.count===''?'Sin conteo':r.row.count)}<small>${esc(r.p.units[r.row.unitIndex].label)}</small></td><td class="num" data-label="Variación">${difference(r)}<small>Contra referencia original</small></td><td class="status-cell" data-label="Estado">${tag(r)}<small>${r.group==='pending'?esc(labels[r.state]):r.group==='ready'?'Revisar decisión del ensayo':r.group==='decided'?'Cantidad explícita conservada':'Sin variación pendiente'}</small><small>${esc(owner(r))}</small></td><td class="detail-cell"><button class="secondary row-action" data-open="${r.p.id}">${r.group==='ready'?'Revisar decisión':'Ver caso'}</button></td></tr>`;}
+function table(rs){return `<div class="table-wrap"><table class="summary-table"><thead><tr><th>Producto / recepción</th><th>Referencia</th><th>Conteo recibido</th><th>Variación</th><th>Estado</th><th>Detalle</th></tr></thead><tbody>${rs.map(rowHtml).join('')}</tbody></table></div>`;}
+function dashboard(){const s=M.summary(D,state);let rows=s.all.filter(r=>filter==='all'||filter==='exceptions'&&r.group!=='matched'||filter==='pending'&&r.group==='pending'||filter==='ready'&&r.group==='ready');rows.sort((a,b)=>({pending:0,ready:1,decided:2,matched:3}[a.group]-{pending:0,ready:1,decided:2,matched:3}[b.group]));
+$('view').innerHTML=title('VISTA DE YAMILE','El cierre, con las variaciones primero.','El conteo llega del operario. Aquí revisas el sustento y decides solo cuando hace falta.','<button data-action="report">Emitir reporte</button>')+sourceWarning()+`<div class="stats"><div class="stat"><b>${s.total}</b><span>productos del cierre</span></div><div class="stat"><b>${s.matched}</b><span>coinciden sin variación</span></div><div class="stat"><b>${s.pending}</b><span>pendientes de aclaración</span></div><div class="stat"><b>${s.ready}</b><span>con sustento para decidir</span></div></div><div class="notice"><b>${s.pending+s.ready?`${s.pending+s.ready} caso(s) requieren atención.`:'No quedan casos por aclarar o decidir en este ensayo.'}</b> ${s.decided} decisión(es) registrada(s). Las cifras cuentan productos; no se suman kilos, unidades o bolsas.</div><div class="filters" aria-label="Filtrar casos">${[['exceptions','Variaciones'],['all','Todo el cierre'],['pending','Por aclarar'],['ready','Para decidir']].map(([v,l])=>`<button data-filter="${v}" class="${filter===v?'active':''}">${l}</button>`).join('')}</div>${rows.length?table(rows):'<div class="empty">Sin casos en este filtro. Puedes consultar todo el cierre.</div>'}<div class="end-row"><p>${state.closed?'Cierre de ensayo conciliado. No autoriza despacho.':s.canClose?'Los casos tienen resultado; puedes cerrar el ensayo.':'El cierre conserva pendientes. Puedes emitir un reporte parcial.'}</p><button data-action="close" ${!s.canClose||state.closed?'disabled':''}>Cerrar conciliación del ensayo</button></div><p class="fine">Referencia: entrada por preparación usada como entrega simulada. Los conteos, la identificación de recepción y las confirmaciones posteriores son ficticios. No equivalen a inventario disponible ni autorización de despacho.</p>`;}
+function operator(){const rows=state.rows.map(row=>{const p=D.products.find(p=>p.id===row.id);return `<tr><td class="product-name">${esc(p.name)}<small>ID ${p.id} · conteo original ${esc(row.original||'sin dato')}</small></td><td data-label="Cantidad física"><input class="operator-count" aria-label="Conteo ${esc(p.name)}" data-count="${p.id}" value="${esc(row.count)}" inputmode="decimal" autocomplete="off"></td><td data-label="Unidad"><select class="operator-unit" aria-label="Unidad ${esc(p.name)}" data-unit="${p.id}">${p.units.map((u,i)=>`<option value="${i}" ${i===row.unitIndex?'selected':''}>${esc(u.label)}</option>`).join('')}</select></td><td class="tiny" data-label="Seguimiento">Versión ${row.revision}<br>${esc(row.note||'Sin observación añadida')}</td></tr>`;}).join('');$('view').innerHTML=title('VISTA SEPARADA · OPERARIO','Registra el conteo una sola vez.','Los productos de esta recepción ya están listados. Usa Tab para avanzar; deja vacío lo que aún no hayas contado.')+`<div class="notice">Esta pantalla representa el punto de captura existente. En un piloto se reutilizaría el Excel o formulario del operario, o se sustituiría por esta pantalla: <b>nunca ambos como doble registro obligatorio.</b></div><form id="batch-form" novalidate><div class="table-wrap"><table class="count-form"><thead><tr><th>Producto de la recepción</th><th>Cantidad física</th><th>Unidad</th><th>Seguimiento</th></tr></thead><tbody>${rows}</tbody></table></div><div class="panel"><label for="batch-reason">Motivo, solo si corriges un conteo ya publicado</label><input id="batch-reason" style="width:100%" maxlength="300" placeholder="Ej.: error de digitación en el ensayo"><p class="fine">Se guarda el antes y después. El motivo de corrección no se toma como causa demostrada de la discrepancia.</p><p id="batch-error" role="alert" class="error" hidden></p><div class="actions"><button type="submit">Publicar conteos al resumen</button><button type="button" class="secondary" data-go="resumen">Volver al resumen</button></div></div></form>`;}
+const issues={formato:'La columna Conteo fue sustituida por CantidadNueva sin un mapeo aprobado.',duplicado:'El mismo producto y recepción aparecen dos veces en el lote.',obsoleta:'La fuente del ensayo no corresponde al corte requerido. No se usa una copia antigua como evidencia vigente.',sinconexion:'La fuente del ensayo no está disponible. No se interpreta como cero.'};
+function sources(){$('view').innerHTML=title('CALIDAD Y TRAZABILIDAD','Si el origen cambia, el cierre lo avisa.','Un adaptador traduce columnas a un formato común. La interfaz de Yamile no depende del nombre o la posición de una celda.')+`<div class="notice ${state.source==='ok'?'':'danger'}"><b>${state.source==='ok'?'Estructura válida en la simulación.':esc(issues[state.source])}</b> ${state.source==='ok'?'No certifica la exactitud física de los datos.':'Carga detenida; las decisiones quedan inhabilitadas.'}${state.sourceError?'<p class="fine">'+esc(state.sourceError)+'</p>':''}</div><div class="two-col"><article class="panel"><h2>Contrato de datos</h2><p>Identificador de producto, recepción, cantidad y unidad. Fecha, almacén y preparación se fijan para el ensayo.</p><p class="file">Versión activa: ${state.adapter}. Cada fila conserva una clave estable, su origen y versión.</p><div class="actions"><button data-action="format-v2" class="secondary" ${['ok','formato'].includes(state.source)?'':'disabled'}>Simular Excel con formato nuevo válido</button>${state.source!=='ok'?'<button data-action="restore">Corregir origen y reintentar (simulado)</button>':''}</div><p class="fine">Son registros sintéticos en memoria: no se abre ni modifica ningún Excel.</p></article><article class="panel"><h2>Qué se controla</h2><p>Columnas obligatorias, duplicados, cantidad válida, unidad compatible, vigencia del corte y ambigüedad de recepción.</p><p><b>Falla del origen → pendiente visible.</b> No hay conversión kg/litro por suposición ni cierre con datos ausentes.</p></article></div><div class="source-grid">${Object.values(D.files).map(f=>`<article class="panel"><p class="eyebrow">${esc(f.kind)}</p><h3>${esc(f.name)}</h3><p class="file">${esc(f.period)}</p><p>${esc(f.role)}</p></article>`).join('')}</div><div class="panel"><h2>Datos reales y datos simulados</h2><p>Se reutilizan los 43 extractos de la versión anterior. Los conteos físicos de este cierre no proceden del ZIP: son valores de ensayo. Cada detalle distingue los registros reales de las respuestas ficticias.</p><p>Un dato de preparación no prueba una entrega. En producción se requiere un ID de recepción inequívoco y una regla de referencia aprobada por Pickadeli.</p></div>`;}
+function history(){$('view').innerHTML=title('TRAZABILIDAD DEL ENSAYO','Qué cambió y quién lo hizo.','Cada corrección conserva su valor anterior. Una actualización del origen obliga a revisar de nuevo las decisiones afectadas.','<button data-action="report">Ver reporte</button>')+(state.events.length?`<div class="panel">${state.events.slice().reverse().map(e=>`<article class="event"><small>${new Date(e.at).toLocaleString('es-PE')} · ${esc(e.role)} · revisión ${e.revision}</small><h3>${esc(e.type)}</h3><p>${esc(e.details)}</p></article>`).join('')}</div>`:'<div class="empty">Aún no hay cambios. Los conteos iniciales están precargados como simulación.</div>')+'<p class="fine">Historial local editable por quien tenga acceso al navegador. No es una auditoría inmutable ni autenticada.</p>';}
+function comparison(){$('view').innerHTML=title('PRÓXIMA VALIDACIÓN','Comparar con una ficha de excepciones.','La alternativa simple utiliza el mismo cierre. No se atribuyen ahorros a ninguna opción antes de medirla.')+`<div class="notice"><b>Tarea:</b> identifica los casos pendientes, explica qué falta para decidir y quién debe aclararlo. Usa el mismo conjunto de datos en ambas alternativas y registra las ayudas. Alterna el orden entre participantes.</div><div class="two-col"><article class="panel"><h2>A · Resumen con evidencia</h2><p>Consulta la vista de Yamile, el sustento recuperado y los estados.</p><button data-go="resumen" class="secondary">Abrir resumen</button></article><article class="panel"><h2>B · Ficha solo de excepciones</h2><p>Registro reducido con producto, referencia, conteo y observación. El sustento se busca en el origen, fuera de la ficha. Para comparar, ambos participantes deben tener los mismos archivos disponibles.</p><button data-action="simple" class="secondary">Abrir ficha simple</button></article></div><div class="panel"><h2>Registro de una prueba nueva</h2><p class="fine">Cronómetro de duración transcurrida; incluye esperas y navegación. No mide por sí solo tiempo activo ni demuestra ahorro. Cambiar el escenario exige terminar antes la prueba.</p><label for="participant">Código anónimo del participante</label><input id="participant" placeholder="P01" maxlength="20" ${trial?'disabled':''} value="${esc(trial?.participant||'')}"><label for="condition">Alternativa</label><select id="condition" ${trial?'disabled':''}><option value="A" ${trial?.condition==='A'?'selected':''}>A · Resumen con evidencia</option><option value="B" ${trial?.condition==='B'?'selected':''}>B · Ficha solo de excepciones</option><option value="C" ${trial?.condition==='C'?'selected':''}>C · Procedimiento actual (fuera de la demo)</option></select><p id="timer" class="clock">${trial?Math.floor((Date.now()-trial.start)/1000)+' s':'Sin iniciar'}</p><div class="actions"><button data-action="start-test" ${trial?'disabled':''}>Iniciar</button><button data-action="help-test" class="secondary" ${!trial?'disabled':''}>Registrar ayuda (${trial?.helps||0})</button><button data-action="stop-test" class="secondary" ${!trial?'disabled':''}>Finalizar medición</button></div><label for="test-note">Observaciones al finalizar</label><textarea id="test-note" placeholder="Dudas, errores, interrupciones o decisiones observadas"></textarea></div><div class="panel"><h2>Mediciones registradas</h2>${state.tests.length?state.tests.map(t=>`<p>${esc(t.participant)} · ${t.condition} · ${fmt(t.seconds)} s · ${t.helps} ayudas · ${esc(M.names[t.scenario])} · revisión ${t.revision}<br><span class="fine">${esc(t.note||'Sin observación')}</span></p>`).join(''):'<p>No hay mediciones. Las pruebas técnicas del prototipo no son validaciones con usuarios.</p>'}</div>`;}
+function render(){if(!['resumen','operario','fuentes','historial','comparar'].includes(view))view='resumen';document.querySelectorAll('[data-view]').forEach(b=>{b.classList.toggle('active',b.dataset.view===view);b.setAttribute('aria-current',b.dataset.view===view?'page':'false');});$('cutoff').textContent=state.cutoff.slice(0,5);$('version').textContent='Revisión '+state.revision;$('scenario').value=state.scenario;({resumen:dashboard,operario:operator,fuentes:sources,historial:history,comparar:comparison})[view]();}
+function go(v){view=v;if(location.hash!=='#'+v)window.history.pushState(null,'','#'+v);render();$('main').focus({preventScroll:true});window.scrollTo(0,0);}
+function openDetail(id){selected=id;const r=result(id),row=r.row;let controls='';if(r.state==='unlinked')controls='<button data-sim="link">Simular vínculo de merma al lote</button>';if(['shortage','surplus'].includes(r.state))controls='<button data-sim="response">Simular confirmación de cantidad de entrega</button>';if(r.state==='ambiguous')controls=r.p.preps.map(p=>`<button data-sim="assign" data-prep="${p.id}">Simular asignación: ${p.id} · ${fmt(p.quantity)} kg</button>`).join('');if(r.state==='late')controls='<button data-sim="later">Simular registro disponible a las 18:00</button>';
+$('detail-title').textContent=r.p.name;$('detail-body').innerHTML=`${tag(r)}<div class="metrics"><div><span>Referencia original</span><b>${fmt(r.declared)}</b><small>${esc(r.p.baseUnit)}</small></div><div><span>Conteo físico</span><b>${esc(row.count||'—')}</b><small>${esc(r.p.units[row.unitIndex].label)}</small></div><div><span>Variación original</span><b>${r.deltaOrigin==null?'—':(r.deltaOrigin>0?'+':'')+fmt(r.deltaOrigin)}</b><small>${esc(r.p.baseUnit)}</small></div></div><h3>Explicación disponible</h3><p>${esc(r.reason)}</p>${r.expected!==null&&r.expected!==undefined&&r.expected!==r.declared?`<p><b>Referencia tras sustento: ${fmt(r.expected)} ${esc(r.baseUnit)}.</b> Se conserva la referencia original.</p>`:''}<p class="fine">Responsable propuesto: ${esc(r.owner||'Almacén / Picking')}. Recepción: ${esc(row.receipt)}. ${r.prep?`Preparación ${r.prep.id}, lote ${r.prep.lot}.`:''}</p><h3>Evidencia recuperada</h3><div class="evidence-links">${r.evidence?.map(id=>`<button data-evidence="${id}">${esc(D.evidence[id].sheet)} · ${esc(D.evidence[id].range)}</button>`).join('')||'<p class="fine">Sin referencia válida disponible.</p>'}</div>${(r.simulated||[]).map(x=>`<div class="notice"><b>Respuesta simulada</b><p>${esc(x.detail)}</p></div>`).join('')}<details class="rule"><summary>Contexto que no prueba esta entrega</summary>${[...new Set([...r.p.context,'MHEAD','SHEAD'])].filter(id=>!r.evidence?.includes(id)).map(id=>`<p>${esc(D.evidence[id]?.note)} <button class="text-btn" data-evidence="${id}">Ver origen</button></p>`).join('')}</details><h3>Decisión cuantitativa</h3>${r.accepted!==null?`<p class="success"><b>${fmt(r.accepted)} ${esc(r.p.units[row.unitIndex].label)} confirmadas en el ensayo.</b></p>`:'<p>Sin decisión registrada. Una coincidencia de cantidades no autoriza despacho ni acredita calidad.</p>'}<button data-action="decide" ${r.group!=='ready'?'disabled':''}>Registrar decisión: ${esc(row.count||'—')} ${esc(r.p.units[row.unitIndex].label)} (ensayo)</button><p class="fine">Solo disponible con sustento compatible. Esta regla requiere aprobación de Pickadeli para un piloto real.</p><label for="case-note">Observación adicional (opcional)</label><textarea id="case-note" maxlength="1200" placeholder="Si no conoces la causa, conserva el pendiente.">${esc(row.note)}</textarea><button class="secondary" data-action="save-note">Guardar observación</button><p class="fine">Una observación no confirma una causa ni elimina el pendiente por sí sola. Para corregir el conteo, el operario modifica su registro de origen.</p>${controls?`<details class="facilitator"><summary>Eventos del facilitador</summary><p>Representan información que llega del origen. No son pasos que Yamile deba ejecutar ni comunicaciones reales.</p>${controls}</details>`:''}`;if(!$('detail').open)$('detail').showModal();}
+function evidence(id){const e=D.evidence[id];if(!e)return;$('evidence-title').textContent=e.title;$('evidence-body').innerHTML=`<p class="file"><b>${esc(e.file)}</b><br>${esc(e.sheet)} · ${esc(e.range)}</p><table class="cell-table"><tbody>${Object.entries(e.cells).map(([k,v])=>`<tr><th>${esc(k)}</th><td>${esc(v===null?'Celda vacía':v)}</td></tr>`).join('')}</tbody></table><p class="notice">${esc(e.note)}</p><p class="fine">Extracto del archivo original incorporado en el HTML. No es una consulta en vivo.</p>`;$('evidence').showModal();}
+function report(simple=false){const s=M.summary(D,state),rs=simple?s.all.filter(r=>r.group!=='matched'):s.all;$('report-title').textContent=simple?'Alternativa B · Ficha de excepciones':'Reporte de cierre';$('report-body').innerHTML=`<div class="report-head"><p class="eyebrow">PICKADELI · SIMULACIÓN ACADÉMICA</p><h2>${simple?'Ficha simple de excepciones':'Cierre de recepción · DEMO-CIP-0107'}</h2><p>01/07/2026 · Almacén Principal CIP · Corte ${state.cutoff.slice(0,5)} · Revisión ${state.revision}</p><p><b>${s.canClose?'Conciliación completa en el ensayo':'Reporte parcial: conserva pendientes'}</b><br>${s.total} productos · ${s.matched} coinciden · ${s.pending} por aclarar · ${s.ready} para decidir · ${s.decided} decisiones.</p></div><table class="export-table"><thead><tr><th>Producto</th><th>Referencia</th><th>Conteo</th><th>Variación</th><th>Estado / decisión</th><th>${simple?'Observación':'Explicación y origen'}</th></tr></thead><tbody>${rs.map(r=>`<tr><td>${esc(r.p.name)}</td><td>${fmt(r.declared)} ${esc(r.p.baseUnit)}</td><td>${esc(r.row.count||'Sin conteo')} ${esc(r.p.units[r.row.unitIndex].label)}</td><td>${difference(r)}</td><td>${esc(r.label)}<br>${esc(owner(r))}<br>${r.accepted===null?(r.group==='matched'?'Sin variación por decidir':'Cantidad aceptada: sin definir'):`Cantidad confirmada: ${fmt(r.accepted)} ${esc(r.p.units[r.row.unitIndex].label)}`}</td><td>${simple?'<textarea data-simple-note="'+esc(r.p.id)+'" aria-label="Observación de '+esc(r.p.name)+'" placeholder="Causa, dato faltante o responsable">'+esc(state.simpleNotes?.[r.p.id]||'')+'</textarea>':esc(r.reason)+'<br>'+esc((r.evidence||[]).map(id=>D.evidence[id].file+' / '+D.evidence[id].sheet+' / '+D.evidence[id].range).join('; '))+'<br>'+esc(r.row.note||'Sin observación añadida')}${r.simulated?.length&&!simple?'<br><b>Incluye sustento simulado.</b>':''}</td></tr>`).join('')}</tbody></table><p class="notice">${simple?'Alternativa reducida: no recupera evidencia en esta ficha. El responsable consulta el origen y documenta solo las excepciones.':'Referencia basada en entrada por preparación, no en entrega física acreditada.'} Conteos y decisiones simulados; no modifica stock ni autoriza despacho.</p>${simple?'<label for="simple-note">Observación general de la prueba (opcional)</label><textarea id="simple-note" placeholder="Documenta aquí la excepción durante la prueba comparativa"></textarea><button class="secondary no-print" data-action="save-simple">Guardar nota de la alternativa B</button>':''}`;refreshBackup();$('report').showModal();}
+function refreshBackup(){const s=M.summary(D,state);$('json-output').value=JSON.stringify({demo:true,scope:'Conciliación simulada; no inventario',state,evidence:D.evidence,results:s.all.map(({p,row,...r})=>({...r,product:p.name,id:p.id,unit:p.units[row.unitIndex].label}))},null,2);}
+function recover(version){const map=M.mappings[version],raw=state.rows.map(r=>({[map.product]:r.id,[map.quantity]:r.count,[map.unit]:r.unitIndex,[map.receipt]:r.receipt}));const a=M.adapt(raw,version);if(a.error){toast(a.error);return;}state.source='ok';state.sourceError=null;state.adapter=version;state.rows.forEach(r=>{r.decision=null;});change('Origen validado (simulado)','Responsable de datos',`Adaptador ${version}; ${a.rows.length} filas. Se conservan conteos y se reevalúan decisiones.`);toast('Origen del ensayo validado. Conteos conservados.');}
+$('view').addEventListener('submit',e=>{if(e.target.id!=='batch-form')return;e.preventDefault();const updates=[];let err='';for(const row of state.rows){const count=document.querySelector(`[data-count="${row.id}"]`).value.trim(),unitIndex=Number(document.querySelector(`[data-unit="${row.id}"]`).value);if(count!==''){const p=D.products.find(p=>p.id===row.id),parsed=window.PickadeliV2.parseCount(count);if(parsed.error||p.units[unitIndex].integer&&!Number.isInteger(parsed.value)){err=p.name+': '+(parsed.error||'La unidad requiere una cantidad entera.');break;}}if(count!==row.count||unitIndex!==row.unitIndex)updates.push({row,count,unitIndex});}const reason=$('batch-reason').value.trim();if(!err&&updates.some(u=>u.row.count!=='')&&!reason)err='Indica el motivo de la corrección; se conservará el conteo original.';if(err){$('batch-error').hidden=false;$('batch-error').textContent=err;return;}if(!updates.length){toast('No hay cambios. No se creó una carga duplicada.');return;}const details=updates.map(u=>{const p=D.products.find(p=>p.id===u.row.id);const before=`${u.row.count||'vacío'} ${p.units[u.row.unitIndex].label}`,after=`${u.count||'vacío'} ${p.units[u.unitIndex].label}`;Object.assign(u.row,{count:u.count,unitIndex:u.unitIndex,context:{},decision:null,revision:u.row.revision+1});return `${p.name}: ${before} → ${after}`;}).join('\n');change('Conteo publicado / corregido','Operario',details+'\nMotivo: '+(reason||'Primer conteo'));toast(`${updates.length} conteo(s) actualizado(s). Yamile recibe el resumen.`);});
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.close){$(b.dataset.close).close();return;}if(b.dataset.view||b.dataset.go){go(b.dataset.view||b.dataset.go);return;}if(b.dataset.filter){filter=b.dataset.filter;render();return;}if(b.dataset.open){openDetail(b.dataset.open);return;}if(b.dataset.evidence){evidence(b.dataset.evidence);return;}if(b.dataset.sim&&selected){const r=result(selected),row=r.row;const type=b.dataset.sim;if(type==='link')row.context.linkIncident=true;if(type==='response')row.context.response={product:row.id,prep:r.prep.id,quantity:r.normalized};if(type==='assign')row.context.prepId=b.dataset.prep;if(type==='later')state.cutoff='18:00:00';row.decision=null;change('Nueva evidencia ficticia','Facilitador',`${r.p.name}: ${b.textContent}. No procede de un registro original.`);openDetail(selected);return;}const a=b.dataset.action;if(a==='report'||a==='simple')report(a==='simple');if(a==='save-note'){get(selected).note=$('case-note').value.trim();change('Observación añadida','Yamile',`${result(selected).p.name}: ${get(selected).note||'(observación vacía)'}`);openDetail(selected);toast('Observación guardada; el sustento no ha cambiado.');}if(a==='decide'){const r=result(selected);if(r.group!=='ready'){toast('Falta sustento compatible.');return;}r.row.decision={quantity:Number(r.row.count.replace(',','.')),at:new Date().toISOString(),by:'Yamile (ensayo)',revision:state.revision};change('Decisión cuantitativa registrada','Yamile',`${r.p.name}: ${r.row.decision.quantity} ${r.p.units[r.row.unitIndex].label}. Solo simulación, no autorización de despacho.`);openDetail(selected);toast('Decisión guardada con su evidencia.');}if(a==='close'){if(!M.summary(D,state).canClose){toast('Hay pendientes; emite un reporte parcial.');return;}state.closed=new Date().toISOString();event('Cierre conciliado','Yamile','Cierre del ensayo; no autorización de despacho.');persist();render();}if(a==='restore')recover(state.adapter);if(a==='format-v2')recover('v2');if(a==='save-simple'){state.simpleNotes=state.simpleNotes||{};const notes=[];document.querySelectorAll('[data-simple-note]').forEach(el=>{state.simpleNotes[el.dataset.simpleNote]=el.value.trim();if(el.value.trim())notes.push(el.dataset.simpleNote+': '+el.value.trim());});event('Ficha simple de excepciones','Alternativa B',notes.join('\n')+'\n'+($('simple-note').value.trim()||'Sin observación general'));persist();refreshBackup();toast('Nota conservada en el historial de la alternativa B.');}if(a==='start-test'){const participant=$('participant').value.trim();if(!participant){toast('Escribe un código anónimo para esta prueba.');return;}trial={participant,condition:$('condition').value,start:Date.now(),helps:0,scenario:state.scenario,revision:state.revision};render();}if(a==='help-test'&&trial){trial.helps++;toast('Ayuda registrada.');if(view==='comparar')b.textContent=`Registrar ayuda (${trial.helps})`;}if(a==='stop-test'&&trial){state.tests.push({...trial,seconds:Math.round((Date.now()-trial.start)/1000),note:$('test-note').value.trim(),measuredAt:new Date().toISOString()});trial=null;persist();render();toast('Medición guardada; no se calcula ahorro automático.');}});
+$('guide').onclick=()=>$('help').showModal();$('scenario').innerHTML=Object.entries(M.names).map(([id,n])=>`<option value="${id}">${esc(n)}</option>`).join('');$('load-scenario').onclick=()=>{if(trial){toast('Finaliza la medición antes de cambiar el escenario.');return;}if(!confirm('¿Cargar otro ensayo y borrar los cambios del cierre actual? Las mediciones comparativas se conservan. Exporta antes el reporte para guardar el cierre.'))return;const measurements=state.tests;state=M.initial($('scenario').value);state.tests=measurements;filter='exceptions';event('Escenario cargado','Facilitador',M.names[state.scenario]+' · conteos simulados.');persist();go('resumen');};
+window.addEventListener('beforeprint',()=>{if($('report').open){$('report').scrollTop=0;window.scrollTo(0,0);}});$('print-report').onclick=()=>window.print();$('download-json').onclick=()=>{refreshBackup();const u=URL.createObjectURL(new Blob([$('json-output').value],{type:'application/json'}));const a=document.createElement('a');a.href=u;a.download='Pickadeli_cierre_ensayo.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),30000);};window.addEventListener('hashchange',()=>{view=location.hash.slice(1);render();});setInterval(()=>{if(trial&&$('timer'))$('timer').textContent=Math.floor((Date.now()-trial.start)/1000)+' s';},1000);
+persist();view=location.hash.slice(1)||'resumen';render();
+})();
+
+</script></body></html>
